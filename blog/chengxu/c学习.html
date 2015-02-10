@@ -1,84 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <!-- Site Meta Data -->
-  <title>c学习</title>
-  <meta name="description" content="">
-  <meta name="author" content="eric">
+        <meta charset="utf-8" />
+        <title>c学习</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="eric的博客 Atom Feed" />
 
-  <!-- Style Meta Data -->
-  <link rel="stylesheet" href="/theme/css/notebook.css" type="text/css" />
-  <link rel="shortcut icon" href="/">
-
-  <!-- Feed Meta Data -->
-  <link href="/" type="application/atom+xml" rel="alternate" title="eric的博客 ATOM Feed" />
-
-  <!-- Twitter Feed -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:site" content="">
-  <meta name="twitter:image" content="/">
-
-<meta name="twitter:creator" content="">
-<meta name="twitter:url" content="/blog/chengxu/c学习.html">
-<meta name="twitter:title" content="eric的博客 ~ c学习">
-<meta name="twitter:description" content="">
-
-<!-- Facebook Meta Data -->
-<meta property="og:title" content="eric的博客 ~ c学习" />
-<meta property="og:description" content="" />
-<meta property="og:image" content="" />
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
 </head>
 
-<body>
-  <!-- Sidebar -->
-  <aside>
-    <p><a href=""><img id="avatar" src="/"></a></p>
-    <h1>eric的博客</h1>
-    <p></p>
-    <hr>
-    <h2>Social</h2>
-    <ul class="social">
-      <li style="list-style-image : url(/theme/images/icons/rss.png);"><a href="/" rel="alternate"><i class="icon-bookmark icon-large"></i>Atom feed</a></li>
-    </ul>
-    <h2>Categories</h2>
-    <ul class="navbar">
-      <li class="active"><a href="/category/cheng-xu.html">程序</a></li>
-      <li><a href="/category/ren-sheng.html">人生</a></li>
-    </ul> 
-  </aside>
-
-  <!-- Content -->
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">eric的博客 </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/cheng-xu.html">程序</a></li>
+                    <li><a href="/category/ren-sheng.html">人生</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
   <article>
-<section id="content">
-    <article>
-        <header class="post_list">
-            <h2 class="post_title"><a href="/blog/chengxu/c学习.html" rel="bookmark" title="Permalink to c学习">c学习</a></h2>
-            <span>Par </span>
-            <a href="/author/alexis-metaireau.html">@Alexis Metaireau</a>
-            <span> dans </span>
-            <span class="post_category"><a href="/category/cheng-xu.html" rel="bookmark" title="Permalink to 程序">[ 程序 ]</a></span>
-            <span> le </span>
-            <span class="post_date">五 03 十二月 2010</span>
-            <div><span>Tags : </span>
-                <span><a href="/tag/pelican.html">#pelican, </a></span>
-                <span><a href="/tag/publishing.html">#publishing, </a></span>
-            </div>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/chengxu/c学习.html" rel="bookmark"
+           title="Permalink to c学习">c学习</a></h1>
+    </header>
 
-            <div class="entry-social">
-                <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=/blog/chengxu/c学习.html&text=c学习&via=">Twitter</a></span>
-
-                <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=/blog/chengxu/c学习.html&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;">Google+</a></span>
-
-                <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=/blog/chengxu/c学习.html&t=c学习">Facebook</a></span>
-
-                <a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=</blog/chengxu/c学习.html&title=c学习" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;">Linkedin</a>
-
-                <span class="mail"><a href="mailto:?subject=c学习&amp;body=Viens découvrir un article à propos de [c学习] sur le site de eric. /blog/chengxu/c学习.html" title="Share by Email" target="_blank">Mail</a></span>
-            </div>
-        </header>
-        <div class="entry-content">
-            <h1>c学习</h1>
+    <div class="entry-content">
+<footer class="post-info">
+        <span>五 03 十二月 2010</span>
+<span>| tags: <a href="/tag/pelican.html">pelican</a><a href="/tag/publishing.html">publishing</a></span>
+</footer><!-- /.post-info -->      <h1>c学习</h1>
 <h3>1.sizeof</h3>
 <div class="highlight"><pre>int main(void)
 {
@@ -120,20 +74,24 @@
     <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="o">+</span><span class="mi">3</span><span class="p">);</span>   <span class="c1">//a + sizeof(int) * 5 * 3</span>
 <span class="p">}</span>
 </pre></div>
-        </div>
-    </article>
-</section>
+    </div><!-- /.entry-content -->
+
   </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
-  <!-- Footer -->
-  <footer>
-    <address id="about" class="vcard body">
-      Blog powered by <a href="http://getpelican.com/">Pelican</a>, 
-      which takes great advantage of <a href="http://python.org">Python</a>.
-      Theme <a href="https://github.com/quack1/notebook/">Notebook</a> by <a href="https://twitter.com/_Quack1">@Quack1</a>.
-    </address>
-  </footer>
+                            <li><a href="http://www.apibox.cc">apibox</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
 
 </body>
 </html>
