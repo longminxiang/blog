@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric写文字的地方</title><link href="/" rel="alternate"></link><link href="/feeds/cheng-xu.atom.xml" rel="self"></link><id>/</id><updated>2010-12-03T10:20:00+01:00</updated><entry><title>c学习</title><link href="/blog/chengxu/c%E5%AD%A6%E4%B9%A0.html" rel="alternate"></link><updated>2010-12-03T10:20:00+01:00</updated><author><name>Alexis Metaireau</name></author><id>tag:,2010-12-03:blog/chengxu/c学习.html</id><summary type="html">&lt;h1&gt;c学习&lt;/h1&gt;
+&lt;h3&gt;1.sizeof&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;int main(void)
+{
+    struct Z { char a; char b; char c; };
+    printf(&amp;quot;%zu,&amp;quot;, sizeof(struct Z));
+    struct X { int a; char b; int c; };
+    printf(&amp;quot;%zu,&amp;quot;, sizeof(struct X)); //print 12
+    struct Y { double a; int b; char c; char d; int e; };
+    printf(&amp;quot;%zu\n&amp;quot;, sizeof(struct Y)); //print 16
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;printf size_t use %zu;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;key:对界，先找出最大的类型的长度N，然后向N的倍数对齐&lt;/strong&gt;&lt;/p&gt;
+&lt;h5&gt;编译器计算Z的时候：&lt;/h5&gt;
+&lt;p&gt;N = sizeof(char) = 1&lt;/p&gt;
+&lt;p&gt;所以print 3&lt;/p&gt;
+&lt;h5&gt;编译器计算X的时候：&lt;/h5&gt;
+&lt;p&gt;N = sizeof(int) = 4&lt;/p&gt;
+&lt;p&gt;1.int a，4字节，&lt;/p&gt;
+&lt;p&gt;2.char b，1字节，因为要对界，下面又是int，所以变成4字节&lt;/p&gt;
+&lt;p&gt;3.int c，4字节，&lt;/p&gt;
+&lt;p&gt;所以print 12&lt;/p&gt;
+&lt;h5&gt;编译器计算Y的时候：&lt;/h5&gt;
+&lt;p&gt;N = sizeof(double) = 8&lt;/p&gt;
+&lt;p&gt;1.char a， 8字节&lt;/p&gt;
+&lt;p&gt;2.int b、char c、char d，8字节&lt;/p&gt;
+&lt;p&gt;3.int e， 8字节&lt;/p&gt;
+&lt;p&gt;所以print 24&lt;/p&gt;
+&lt;h3&gt;2.指针&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;      &lt;span class="c1"&gt;//a的地址&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;    &lt;span class="c1"&gt;//a+sizeof(int)&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;     &lt;span class="c1"&gt;//&amp;amp;a[0], = a&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="c1"&gt;//a + sizeof(int) * 5 * 3&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
