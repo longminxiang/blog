@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>eric写文字的地方</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2010-12-03T10:20:00+01:00</updated><entry><title>c学习</title><link href="/blog/chengxu/c%E5%AD%A6%E4%B9%A0.html" rel="alternate"></link><updated>2010-12-03T10:20:00+01:00</updated><author><name>Alexis Metaireau</name></author><id>tag:,2010-12-03:blog/chengxu/c学习.html</id><summary type="html">&lt;h1&gt;c学习&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2010-12-03T10:20:00+01:00</updated><entry><title>c学习</title><link href="/blog/chengxu/c%E5%AD%A6%E4%B9%A0.html" rel="alternate"></link><updated>2010-12-03T10:20:00+01:00</updated><author><name>Alexis Metaireau</name></author><id>tag:,2010-12-03:blog/chengxu/c学习.html</id><summary type="html">&lt;h1&gt;c学习&lt;/h1&gt;
 &lt;h3&gt;1.sizeof&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;int main(void)
 {
