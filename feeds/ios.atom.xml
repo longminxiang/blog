@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/ios.atom.xml" rel="self"></link><id>/</id><updated>2014-03-12T21:50:00+01:00</updated><entry><title>lldb 调试技巧</title><link href="/lldb-diao-shi-ji-qiao.html" rel="alternate"></link><updated>2014-03-12T21:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-12:lldb-diao-shi-ji-qiao.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;地址断点&lt;/p&gt;
+&lt;p&gt;br s -a 0x1ce1bb&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数名字断点&lt;/p&gt;
+&lt;p&gt;br s -n decryptStr&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数名字所有断点&lt;/p&gt;
+&lt;p&gt;br s -M decryptStr&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="iOS"></category></entry><entry><title>lldb远程调试环境安装</title><link href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="alternate"></link><updated>2014-03-10T20:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-10:lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html</id><summary type="html">&lt;h2&gt;1.打开终端，运行&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;2.拷贝debugserver&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;3.切换到桌面&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cd ~/Desktop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;4.新建一个plist文件保存为e.plist&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;quot;-//Apple//DTD PLIST 1.0//EN&amp;quot; &amp;quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;plist&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;com.apple.springboard.debugapplications&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;run-unsigned-code&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;get-task-allow&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;task_for_pid-allow&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;5.签名&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;codesign -s - --entitlements e.plist -f debugserver
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;6.拷贝debugserver到越狱iOS设备&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scp&lt;/span&gt; &lt;span class="n"&gt;debugserver&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="mf"&gt;@192.168.2.112&lt;/span&gt;&lt;span class="o"&gt;:~&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;7.ssh到ios设备&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh -l root 192.168.2.112
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;8.运行debugserver，1245为线程id&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./debugserver *:1234 -a 1245
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;9.在mac终端运行lldb&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;lldb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;10.在lldb中运行命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;platform select remote-ios
+process connect connect://192.168.2.112:1234
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry><entry><title>瞬间让你的程序高上大</title><link href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="alternate"></link><updated>2014-03-03T20:25:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-03:shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html</id><summary type="html">&lt;h2&gt;strip功能&lt;/h2&gt;
+&lt;p&gt;代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积，对控制安装包大小很有好处。&lt;/p&gt;
+&lt;p&gt;开启strip只须下面几步&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编译选项中搜索Strip&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Strip Linked Product = Yes&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deployment Postprocessing = YES&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;阻止GDB调试&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#import &amp;lt;dlfcn.h&amp;gt;  &lt;/span&gt;
+&lt;span class="c"&gt;#import &amp;lt;sys/types.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;typedef&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptrace_ptr_t&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pid_t&lt;/span&gt; &lt;span class="n"&gt;_pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;caddr_t&lt;/span&gt; &lt;span class="n"&gt;_addr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="c"&gt;#if !defined(PT_DENY_ATTACH)  &lt;/span&gt;
+&lt;span class="c"&gt;#define PT_DENY_ATTACH 31  &lt;/span&gt;
+&lt;span class="c"&gt;#endif  // !defined(PT_DENY_ATTACH)&lt;/span&gt;
+
+&lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="n"&gt;disable_gdb&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="n"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;RTLD_GLOBAL&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;RTLD_NOW&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;ptrace_ptr_t&lt;/span&gt; &lt;span class="n"&gt;ptrace_ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dlsym&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ptrace&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;ptrace_ptr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PT_DENY_ATTACH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;dlclose&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;charchar&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt;  
+&lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="c"&gt;#ifndef DEBUG  &lt;/span&gt;
+        &lt;span class="n"&gt;disable_gdb&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;  
+    &lt;span class="c"&gt;#endif  &lt;/span&gt;
+    &lt;span class="nd"&gt;@autoreleasepool&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;UIApplicationMain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;NSStringFromClass&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;WQMainPageAppDelegate&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry></feed>

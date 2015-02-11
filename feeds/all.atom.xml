@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2010-12-03T10:20:00+01:00</updated><entry><title>c学习</title><link href="/blog/chengxu/c%E5%AD%A6%E4%B9%A0.html" rel="alternate"></link><updated>2010-12-03T10:20:00+01:00</updated><author><name>Alexis Metaireau</name></author><id>tag:,2010-12-03:blog/chengxu/c学习.html</id><summary type="html">&lt;h1&gt;c学习&lt;/h1&gt;
-&lt;h3&gt;1.sizeof&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2014-11-03T10:20:00+01:00</updated><entry><title>C学习</title><link href="/cxue-xi.html" rel="alternate"></link><updated>2014-11-03T10:20:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-11-03:cxue-xi.html</id><summary type="html">&lt;h3&gt;1.sizeof&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;int main(void)
 {
     struct Z { char a; char b; char c; };
@@ -10,10 +9,12 @@
     struct Y { double a; int b; char c; char d; int e; };
     printf(&amp;quot;%zu\n&amp;quot;, sizeof(struct Y)); //print 16
 }
+
+
+printf size_t use %zu;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;printf size_t use %zu;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;key:对界，先找出最大的类型的长度N，然后向N的倍数对齐&lt;/strong&gt;&lt;/p&gt;
 &lt;h5&gt;编译器计算Z的时候：&lt;/h5&gt;
 &lt;p&gt;N = sizeof(char) = 1&lt;/p&gt;
@@ -40,39 +41,340 @@
     &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;     &lt;span class="c1"&gt;//&amp;amp;a[0], = a&lt;/span&gt;
     &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;%x&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="c1"&gt;//a + sizeof(int) * 5 * 3&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry><entry><title>总结过去10年的程序员生涯</title><link href="/blog/rensheng/%E6%80%BB%E7%BB%93%E8%BF%87%E5%8E%BB10%E5%B9%B4%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E6%B6%AF.html" rel="alternate"></link><updated>2010-12-03T10:20:00+01:00</updated><author><name>eric</name></author><id>tag:,2010-12-03:blog/rensheng/总结过去10年的程序员生涯.html</id><summary type="html">&lt;h1&gt;总结过去10年的程序员生涯&lt;/h1&gt;
-&lt;p&gt;展望未来，总结过去10年的程序员生涯，给程序员小弟弟小妹妹们的一些总结性忠告&lt;/p&gt;
-&lt;p&gt;走过的路，回忆起来是那么曲折，把自己的一些心得体会分享给程序员兄弟姐妹们，虽然时代在变化，但是很可能你也会走我已经做过的10年的路程，有些心得体会你可以借鉴一下，觉得说得有道理的你就接纳，觉得说得没道理的，你就抛弃，以下是我发自内心的，给大家的忠告，特别是针对那些小弟弟妹妹们。&lt;/p&gt;
-&lt;h4&gt;01. 自己的户口档案、养老保险、医疗保险、住房公积金一定要保管好。&lt;/h4&gt;
-&lt;p&gt;由于程序员行业每年跳槽一次，我不隐瞒大家，我至少换过5个以上的单位，这期间跳来跳去，甚至是城市都换过3个。还好户口没丢掉，其他都已经是乱了，好几个城市里，都有交过三金，甚至是一个程序的2个区里交的都有，那些东西，10年后，会变得很重要。你买房子若有公积金，可以取出来，贷款利率也会比较低一些，有孩子了，还需要上学，生病了还需要医疗保险。&lt;/p&gt;
-&lt;p&gt;特别是买房子时，你要商业贷款与公积金贷款的利率差别还是很大，有可能会有10万的差距。你平时都注意这些，会给你带来的损失会最小，例如每个月缴纳300元的公积金，公司也缴纳300元，你一个月能存下来600元，一年就是7200元，10年就是72000元。我以前都忽视了这些，到我需要买房子时，公积金里可能只有几千元，10年很快就过去了，结果我没能存下来多少公积金，医疗保险，养老金等更别提了，都已经稀里糊涂了，这些损失10年累加起来，是很庞大的数字，大家要注意，跳槽换工作时也要保护好自身的利益，现在房价很贵，你可能是跟我一样，大山里出来打拼的娃子，家里也没有丰厚的积蓄，只有靠自己拼搏，买房子是人生的一件大事，等你到了10年，才想到这个事情，已经晚了，特别是孩子要上学，上幼儿园等，需要户口啥的都要齐全。&lt;/p&gt;
-&lt;h3&gt;02. 不要轻易换笔记本电脑，不要跟潮流，不要买过多的电子产品，不要过于频繁的更换手机。&lt;/h3&gt;
-&lt;p&gt;这方面我的经验教训也是惨痛的。我大概前后购买过5-6个笔记本，以前的都是1万多元一台，最近买的是一台是1万多给女朋友的，自己买了一台是7500元左右，手机大概换过接近10个了，这些钱加起来也足够有10万以上了，你可能一不小心就购买了这些电子产品，但是时间长了，你一回过头来想想，你为什么赚得也不少，但是为什么还是那么穷，是因为你购买这些电子产品花费了过多的金钱了，平时笔记本啥的贵重物品要保护好，我一个同事不小心丢了2台笔记本电脑，接近2万的损失啊，你净赚2万，不是那么容易的，这个窟窿不是开玩笑的，我曾经也被人偷了一个崭新的笔记本，损失1.5万左右，更糟糕的是最新的代码也丢被偷了。&lt;/p&gt;
-&lt;h3&gt;03. 这年代外语、学历、职称、驾驶证还是蛮重要的。&lt;/h3&gt;
-&lt;p&gt;想找高薪，外资企业是正确的选择，在同样的打工里，外资企业的收入普遍是高的，我就想不明白，我们的赚钱能力怎么就比不过人家了，社会不断发展，将来可能去外国就像串门一样了，也说不定的，外语好将来的就业机会也会更多更广一些。&lt;/p&gt;
-&lt;p&gt;学历并不代表啥，但是学历也是敲门砖，例如有300个应聘者，那至少重点本科以下的，统统不看了，因为实在是来不及看了，你再厉害也被挡在机会的门外了，同样有时候你想改行什么的，职称也很重要，最起码评个中级职称，说不定还有机会能进入大学或者政府部门还是有可能性。&lt;/p&gt;
-&lt;p&gt;若有充裕的时间，应该把驾驶证考了，因为你越到后面越忙与工作家庭，没机会学车了也说不定的，平时也别光顾拼命工作，工作10年后你才发现，原来身边的人都至少硕士学历了，你被社会自动淘汰了，我现在就有这个感觉，虽然我带过很多硕士，他们的就业机会比我还好，经常能进入名牌企业，我也一直进不去。&lt;/p&gt;
-&lt;h3&gt;04. 不要谈过多的女朋友，谈女朋友要看准，下手要稳准狠。&lt;/h3&gt;
-&lt;p&gt;我谈过2个女朋友，平均每个女朋友身上的开支前后大概会有10万左右，还好我不用谈第3个女朋友了，若投资失误，那也是很残忍的，谈女朋友也会消耗很多时间精力、还会消耗很多金钱，实话的讲的确是这样的，人家女孩子也值钱啊，凭什么就那么轻易的跟你啊，我跟第一个朋友分手时，我的生活至少是倒退了3-4年，一切从零开始，一切从头开始，我劝大家谈女朋友是人生最大的一笔买卖，投资失误会有惨痛的后果，不仅仅是金钱上的损失，更会有精神、心灵上的沉重打击，大家要学会珍惜女朋友，要学会哄好女朋友，让老婆开心每一天，虽然鱼儿上钩了，不用再下鱼饵了，偶尔也别忘记放点米，这个鱼要是脱钩了，那不是开玩笑的。&lt;/p&gt;
-&lt;h3&gt;05. 工作不要更换得太过于频繁，选好了行业方向最好别更换太频繁。&lt;/h3&gt;
-&lt;p&gt;换工作，换行业方向，就像熊掰苞米一样的道理，有时候是丢了芝麻捡西瓜，有时候是丢了西瓜捡芝麻，这个道理我就不多讲了，大家都应该能明白的。&lt;/p&gt;
-&lt;h3&gt;06. 要对身边的人好，要得到老板的信任、同事的认可及支持、珍惜良好的工作环境。&lt;/h3&gt;
-&lt;p&gt;有个朋友的QQ名字很有意思，“只爱陌生人”，陌生人是很有意思，但是最关键时刻，还是需要靠非陌生人，你每天跟同事一起生活，要维系好身边的人。你的成功与失败，往往是你身边的30-40个人决定的。你就是世界首富，他身边也是那么不超过100个人的在左右着他的生活，当你工作10年了，没一个老板信任你，没几个要好的同事朋友，那你惨了，你在这个世界上已经是很孤单了，你的收入，其实大多是来自这些身边的朋友给你介绍的生意，不大会网上掉几个馅饼的。&lt;/p&gt;
-&lt;p&gt;现在你身边的人有可能在不久的将来，给你提供很多好机会。&lt;/p&gt;
-&lt;h3&gt;07. 钱很重要，但是生活质量比钱还重要，工作是很重要，但是家人比工作还重要。&lt;/h3&gt;
-&lt;p&gt;钱不是万能的，但是没钱是万万不能的。钱赚了，身体夸了，全送给医院了，钱赚了，身心疲惫了，人活着为了啥？不就为了开开心心生活嘛？工作重要，但是失去了家人的爱，失去了女朋友，失去了老婆孩子，那这个工作有啥用了？工作很容易就换了，家人是换不了的，老婆不是想换就换的，孩子不是想换就换的，连自己的家庭都不负责的人，怎么可能对公司负责呢？我一直是这个观念，来面试时觉得工作更重要的，我们一般不录取的，那太假了，或者太不懂事了。&lt;/p&gt;
-&lt;h3&gt;08. 工作累了，也别太贪玩，有时候还是需要多想想如何才能赚钱。&lt;/h3&gt;
-&lt;p&gt;时间一晃就过去了，工作累了是可以适当放松，但是别太贪玩，10年很容易就过去了，10年后你要买房子，要娶老婆，要买车子，要生娃娃，身体也会变得脆弱一些，需要良好的生活习惯，也经不起通宵了，通宵一次，你要低迷好几天才能缓过劲儿来，跟20刚出头完全不一样了，用钱的地方多了去了，父母也会变得更老一些，可能也需要你的照顾，整个家子都指望你赚钱，别到了这个时候，你才意识到赚钱是那么的重要，更何况现在城市的房价，动不动就是100万，加上按揭的利息，你很可能需要支付150万。还可能需要装修，买车子。可能你身上的压力是200万。别觉得谈钱就俗，你要学会赚钱，要有个需要赚钱的良好意识，当然你出身富裕家庭，就不用考虑这些因素了。&lt;/p&gt;
-&lt;h3&gt;09. 每天一点点进步，每月一点点积累，要敬业要爱业，我们给别人提供的也是服务。&lt;/h3&gt;
-&lt;p&gt;总有一天，你也会有累的时候，你也会有老的时候，这时候，你要靠啥呢？就要靠你平时的积累，你10年的积累，可以打倒很多竞争对手，他们再厉害，再怎么样，也很难抵得过你10年的积累，特别是后面5-10年的积累，成果会很明显，前面的1-5年，算是做软件的入门吧，除非你有高人指点，那可能2-3年就可以修成正果，软件在将来还是会值钱的，以为生活会越来越智能化，越来越数字化，软件的需求还是很有前途，最起码未来的10-20年里不用太担心失业问题了。&lt;/p&gt;
-&lt;h3&gt;10. 对程序员来讲，开发思想、架构、代码就是财富，别老丢弃你的劳动成果，要学会保护你的劳动成果。&lt;/h3&gt;
-&lt;p&gt;我大概7-8年前的代码都在手上，经常改进来改进去，维护来维护去，在一定的程度上，让我生活轻松了不少，因为我不用什么都从头来过，我只要痛苦一次，以后就要反复重复利用，软件的价值在于重复利用，而不是每个东西，都从头开发，那永远也是辛苦的程序员，这个生活质量就别提了，不管自己的代码丑还是拿不出手，要学会精心维护，每天改进一点点，每个月一个小进步，每年一个大进步，多年的积累是宝贵的，这个早晚也会给你带来丰厚的收益。&lt;/p&gt;
-&lt;h3&gt;11. 当程序员要防止原地踏步，不是工作年限长了，经验就丰富了，能力就强了，年纪越大工作越难找。&lt;/h3&gt;
-&lt;p&gt;我有一个朋友跟我开玩笑，工作5年的人，可能能力差距会很大，为什么呢？因为第一年他们干的事情都是一样的，都写程序了，2个人可能由于价值观不一样，5年后差距会很大，甚至是大到无法追赶的程度，为啥？因为还有机会的因素在里面，有的人干了5年，还是在原地踏步，天天只会写那些添加、删除、修改的代码。那你得注意了，需要不断的提高自己，才是硬道理。例如你会SQLServer，那要试着学习Oracle， 你是做C/S的，那得需要提高到B/S的，你是做单机软件的，那得需要提高到网络软件，你只关注自己的工作的，需要学会管理，关心他人的工作。你是当程序员的，要试着提高当项目经理、部门经理，公司的总监等等，人有野心有目标才会不断进步，最俗的为了多赚钱，提高工作职位工作岗位，工作单位，也是可以理解的。&lt;/p&gt;
-&lt;p&gt;年纪越大工作越难找，例如3-4千的工作是随便找找，玩一样，但是你30过后，最起码要找月薪上1万的工作，这样的工作是机会也少，一般小公司也给不起，还得找个好公司才可以，好公司又不是天天招聘人，天天缺好的工作岗位，说不好听点儿，小公司的老板才赚多少啊？他来钱也很不容易的，小池塘就不好容得下大鲨鱼了。&lt;/p&gt;
-&lt;h3&gt;12.当创业的收入比打工还少时，那就别创业，要找比自己能力强的人创业，你不会吃亏。&lt;/h3&gt;
-&lt;p&gt;创业的收入，比打工还少，那就是瞎扯蛋，恶搞。创业的真正意思并不是要你去吃苦没钱赚，那是忽悠无知的人的。当你创业时的收入，比打工还多，那你可以考虑创业，没有工资什么的，股份啥的，都是瞎扯蛋。&lt;/p&gt;
-&lt;p&gt;不要跟自己能力还弱的人一起创业，那损失最大的，很可能就是你，要创业，也要找比自己强的人一起创业，最起码赚不到钱，还能学到不少。不会有过多的损失。别热血一沸腾就创业了，创业了，也别烧自己的钱，家人的钱，那是很不抗烧的，没几下几十万就烧干了。&lt;/p&gt;
-&lt;p&gt;其实打工，也是创业的开始，每个月都能拿到钱，还可以学到知识，什么公司的股份都是空话，没几个小公司能成功，开起来了也走不了3年就分家了，都忽悠小孩子玩的，除非真的有科技含量或者是客户资源的，否则股份是一文钱不值的，就算创业每个月也按时拿工资才是硬道理。&lt;/p&gt;
-&lt;h3&gt;13. 未来的生活节奏会更快，生活压力会更大，竞争会更激烈，社会服务体系会更完善。&lt;/h3&gt;
-&lt;p&gt;在未来，我们享受良好的服务的同时，也会为别人提供更良好的服务，需要在技能上还是服务质量上的要求会更高更严格。平时要注意提高自己，不要被时代淘汰掉，我从小的朋友，一波又一波被社会无情的淘汰了，很小的时候，我出生在大草原与大山的交界处，我小时候的玩伴，还在大山里，我跟着家人杀出来了，我小学、中学、大学、工作上的、这10年，我一直很坚强的拼搏下来，很不容易的在杭州立住脚了，说实话，参加工作后的十年，也是不断拼搏，不断提高的十年。&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="C"></category></entry><entry><title>mac下django nginx配置备忘录</title><link href="/macxia-django-nginxpei-zhi-bei-wang-lu.html" rel="alternate"></link><updated>2014-06-03T22:15:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-06-03:macxia-django-nginxpei-zhi-bei-wang-lu.html</id><summary type="html">&lt;h4&gt;nginx.conf位置&lt;/h4&gt;
+&lt;p&gt;/usr/local/nginx/conf/nginx.conf&lt;/p&gt;
+&lt;h4&gt;django.xml&lt;/h4&gt;
+&lt;p&gt;置于项目根目录下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;uwsgi&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;socket&amp;gt;&lt;/span&gt;127.0.0.1:1236&lt;span class="nt"&gt;&amp;lt;/socket&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;chdir&amp;gt;&lt;/span&gt;/Users/eric/GIT/YITU/SC/YITU_SER/YITU&lt;span class="nt"&gt;&amp;lt;/chdir&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;pythonpath&amp;gt;&lt;/span&gt;..&lt;span class="nt"&gt;&amp;lt;/pythonpath&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;wsgi&lt;span class="nt"&gt;&amp;lt;/module&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/uwsgi&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;启动服务&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo nginx
+
+uwsgi -x /root/my_django/uwsgi.xml
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="Django"></category></entry><entry><title>Django学习笔记</title><link href="/djangoxue-xi-bi-ji.html" rel="alternate"></link><updated>2014-06-02T20:32:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-06-02:djangoxue-xi-bi-ji.html</id><summary type="html">&lt;h2&gt;数据库建表&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;检查model是否有效&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py validate&lt;/code&gt;
+* 生成create table语句&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py sqlall books&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;同步数据库命令&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py syncdb&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="Python"></category><category term="Django"></category></entry><entry><title>python笔记</title><link href="/pythonbi-ji.html" rel="alternate"></link><updated>2014-05-28T23:06:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-05-28:pythonbi-ji.html</id><summary type="html">&lt;h5&gt;1.定义私有变量，在变量前面加2个下划线'__'&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;people:&lt;/span&gt;    
+    &lt;span class="n"&gt;__name&lt;/span&gt; = &lt;span class="s"&gt;&amp;#39;jack&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;__age&lt;/span&gt; = &lt;span class="mi"&gt;12&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;2.类常用的内置方法&lt;/h5&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;内置方法&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;__init__(self,...)&lt;/td&gt;
+&lt;td&gt;初始化对象，在创建新对象时调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__del__(self)&lt;/td&gt;
+&lt;td&gt;释放对象，在对象被删除之前调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__new__(cls,*args,**kwd)&lt;/td&gt;
+&lt;td&gt;实例的生成操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__str__(self)&lt;/td&gt;
+&lt;td&gt;在使用print语句时被调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getitem__(self,key)&lt;/td&gt;
+&lt;td&gt;获取序列的索引key对应的值，等价于seq[key]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__len__(self)&lt;/td&gt;
+&lt;td&gt;在调用内联函数len( )时被调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__cmp__(stc,dst)&lt;/td&gt;
+&lt;td&gt;比较两个对象src和dst&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getattr__(s,name)&lt;/td&gt;
+&lt;td&gt;获取属性的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__setattr__(s,name,value)&lt;/td&gt;
+&lt;td&gt;设置属性的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__delattr__(s,name)&lt;/td&gt;
+&lt;td&gt;删除name属性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getattribute__( )&lt;/td&gt;
+&lt;td&gt;__getattribute__( )功能与__getattr__( )类似&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__gt__(self,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否大于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__lt__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否小于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__ge__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否大于或者等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__le__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否小于或者等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__eq__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__call__(self,*args)&lt;/td&gt;
+&lt;td&gt;把实例对象作为函数调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5&gt;3.利用__new__生成单例&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+    &lt;span class="n"&gt;__instance&lt;/span&gt; = &lt;span class="n"&gt;None&lt;/span&gt;                       &lt;span class="c-Singleline"&gt;# 定义实例&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__new__&lt;/span&gt;(&lt;span class="n"&gt;cls&lt;/span&gt;, *&lt;span class="n"&gt;args&lt;/span&gt;, **&lt;span class="n"&gt;kwd&lt;/span&gt;):         &lt;span class="c-Singleline"&gt;# 在__init__之前调用&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;None:&lt;/span&gt;    &lt;span class="c-Singleline"&gt;# 生成唯一实例&lt;/span&gt;
+            &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt; = &lt;span class="n"&gt;object&lt;/span&gt;.&lt;span class="n"&gt;__new__&lt;/span&gt;(&lt;span class="n"&gt;cls&lt;/span&gt;, *&lt;span class="n"&gt;args&lt;/span&gt;, **&lt;span class="n"&gt;kwd&lt;/span&gt;)
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;4.方法继承&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# 方法继承，去掉return重写方法
+def age(self):
+    print 10
+    return super(Men, self).age()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;5.将对象属性转为字典&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# 将对象属性转为dict
+print men.__dict__
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;6.当前时间戳&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+&lt;span class="c"&gt;# time.time()返回当前时间戳&lt;/span&gt;
+&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;born&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;7.property属性&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Men&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__init__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="n"&gt;super&lt;/span&gt;(&lt;span class="n"&gt;Person&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;).&lt;span class="n"&gt;__init__&lt;/span&gt;()
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt; = &lt;span class="mi"&gt;0&lt;/span&gt;
+
+    &lt;span class="c-Singleline"&gt;# 用property特性访问私有变量&lt;/span&gt;
+    &lt;span class="nv"&gt;@property&lt;/span&gt;
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="nb"&gt;value&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt;
+
+    &lt;span class="c-Singleline"&gt;# 用property特性设置私有变量&lt;/span&gt;
+    &lt;span class="nv"&gt;@value&lt;/span&gt;.&lt;span class="n"&gt;setter&lt;/span&gt;
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="nb"&gt;value&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;, &lt;span class="nb"&gt;value&lt;/span&gt;):
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt; = &lt;span class="nb"&gt;value&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;8.__getattr__(self, name)方法&lt;/h5&gt;
+&lt;p&gt;可以用来查询限时生成的属性，name为属性名&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果在__init__方法初始化了某个属性，是不进入此方法的&lt;/li&gt;
+&lt;li&gt;但如果重写__getattr__方法（不继承super），又进入此方法了,如果是继承__getattr__，就不进&lt;/li&gt;
+&lt;li&gt;此方法不能继承:AttributeError: 'super' object has no attribute '__getattr__'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;--&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Men&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__init__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="n"&gt;super&lt;/span&gt;(&lt;span class="n"&gt;Men&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;).&lt;span class="n"&gt;__init__&lt;/span&gt;()
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt; = &lt;span class="mi"&gt;21&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__getattr__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;, &lt;span class="nb"&gt;name&lt;/span&gt;):
+        &lt;span class="k"&gt;if&lt;/span&gt; (&lt;span class="nb"&gt;name&lt;/span&gt; == &lt;span class="s"&gt;&amp;#39;girls&amp;#39;&lt;/span&gt;):
+            &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;in __getattr__ girls&amp;#39;&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;
+        &lt;span class="n"&gt;elif&lt;/span&gt; (&lt;span class="nb"&gt;name&lt;/span&gt; == &lt;span class="s"&gt;&amp;#39;age&amp;#39;&lt;/span&gt;):
+            &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;in __getattr__ age&amp;#39;&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;
+
+    &lt;span class="n"&gt;men&lt;/span&gt; = &lt;span class="n"&gt;Men&lt;/span&gt;()  
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;men&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt;       &lt;span class="c-Singleline"&gt;#print 21,age已在__init__声明,不进入__getattr__&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;men&lt;/span&gt;.&lt;span class="n"&gt;girls&lt;/span&gt;     &lt;span class="c-Singleline"&gt;#print 33,进入__getattr__&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;9.packing&lt;/h5&gt;
+&lt;p&gt;&lt;strong&gt;*args:接受单值参数，以元组形式保存&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;**kwds:接受赋值参数，以字典形式保存&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;def func(*name):
+    print type(name)
+    print name
+
+func(1, 2, 3, 4, 5)         #(1, 2, 3, 4, 5)
+
+func(&amp;#39;sf&amp;#39;, &amp;#39;sf&amp;#39;, &amp;#39;error&amp;#39;)   #(&amp;#39;sf&amp;#39;, &amp;#39;sf&amp;#39;, &amp;#39;error&amp;#39;)
+
+def func1(**dict):
+    print type(dict)
+    print dict
+
+func1(a=1, b=2, c=3)
+
+func1(c=2, d=5, xx=&amp;#39;33&amp;#39;, ee=&amp;#39;44&amp;#39;, aa=&amp;#39;2&amp;#39;)
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="Django"></category></entry><entry><title>NDK C++11 编译错误解决方法</title><link href="/ndk-c11-bian-yi-cuo-wu-jie-jue-fang-fa.html" rel="alternate"></link><updated>2014-05-10T22:30:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-05-10:ndk-c11-bian-yi-cuo-wu-jie-jue-fang-fa.html</id><summary type="html">&lt;h3&gt;编译通过，但Eclipse还是提示错误&lt;/h3&gt;
+&lt;p&gt;其实NDk已经能很好的支持C++11了&lt;/p&gt;
+&lt;p&gt;但是eclipse的代码分析器有时会分析不出来，仍然提示错误，&lt;/p&gt;
+&lt;p&gt;这就会出现编译虽然通过了，但是还是运行不了，&lt;/p&gt;
+&lt;p&gt;所以这时候要做的就是：把代码分析器干掉&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;去到 Project &amp;gt; Properties &amp;gt; C/C++ General / Code Analysis
+
+勾上Use project settings
+
+把Coding Style、Syntax and Semantic Errors、Security Vulnerabilities 的勾去掉
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="NDK"></category></entry><entry><title>lldb 调试技巧</title><link href="/lldb-diao-shi-ji-qiao.html" rel="alternate"></link><updated>2014-03-12T21:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-12:lldb-diao-shi-ji-qiao.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;地址断点&lt;/p&gt;
+&lt;p&gt;br s -a 0x1ce1bb&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数名字断点&lt;/p&gt;
+&lt;p&gt;br s -n decryptStr&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;函数名字所有断点&lt;/p&gt;
+&lt;p&gt;br s -M decryptStr&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="iOS"></category></entry><entry><title>lldb远程调试环境安装</title><link href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="alternate"></link><updated>2014-03-10T20:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-10:lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html</id><summary type="html">&lt;h2&gt;1.打开终端，运行&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;2.拷贝debugserver&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;3.切换到桌面&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cd ~/Desktop
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;4.新建一个plist文件保存为e.plist&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;quot;-//Apple//DTD PLIST 1.0//EN&amp;quot; &amp;quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;quot;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;plist&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;com.apple.springboard.debugapplications&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;run-unsigned-code&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;get-task-allow&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;task_for_pid-allow&lt;span class="nt"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;5.签名&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;codesign -s - --entitlements e.plist -f debugserver
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;6.拷贝debugserver到越狱iOS设备&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scp&lt;/span&gt; &lt;span class="n"&gt;debugserver&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="mf"&gt;@192.168.2.112&lt;/span&gt;&lt;span class="o"&gt;:~&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;7.ssh到ios设备&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh -l root 192.168.2.112
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;8.运行debugserver，1245为线程id&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./debugserver *:1234 -a 1245
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;9.在mac终端运行lldb&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;lldb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;10.在lldb中运行命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;platform select remote-ios
+process connect connect://192.168.2.112:1234
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry><entry><title>瞬间让你的程序高上大</title><link href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="alternate"></link><updated>2014-03-03T20:25:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-03:shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html</id><summary type="html">&lt;h2&gt;strip功能&lt;/h2&gt;
+&lt;p&gt;代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积，对控制安装包大小很有好处。&lt;/p&gt;
+&lt;p&gt;开启strip只须下面几步&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编译选项中搜索Strip&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Strip Linked Product = Yes&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deployment Postprocessing = YES&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;阻止GDB调试&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#import &amp;lt;dlfcn.h&amp;gt;  &lt;/span&gt;
+&lt;span class="c"&gt;#import &amp;lt;sys/types.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;typedef&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ptrace_ptr_t&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pid_t&lt;/span&gt; &lt;span class="n"&gt;_pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;caddr_t&lt;/span&gt; &lt;span class="n"&gt;_addr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;_data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="c"&gt;#if !defined(PT_DENY_ATTACH)  &lt;/span&gt;
+&lt;span class="c"&gt;#define PT_DENY_ATTACH 31  &lt;/span&gt;
+&lt;span class="c"&gt;#endif  // !defined(PT_DENY_ATTACH)&lt;/span&gt;
+
+&lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="n"&gt;disable_gdb&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="n"&gt;void&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;RTLD_GLOBAL&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;RTLD_NOW&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;ptrace_ptr_t&lt;/span&gt; &lt;span class="n"&gt;ptrace_ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dlsym&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ptrace&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;ptrace_ptr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PT_DENY_ATTACH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;dlclose&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;charchar&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt;  
+&lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="c"&gt;#ifndef DEBUG  &lt;/span&gt;
+        &lt;span class="n"&gt;disable_gdb&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;  
+    &lt;span class="c"&gt;#endif  &lt;/span&gt;
+    &lt;span class="nd"&gt;@autoreleasepool&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;UIApplicationMain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;NSStringFromClass&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;WQMainPageAppDelegate&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry></feed>

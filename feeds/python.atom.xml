@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/python.atom.xml" rel="self"></link><id>/</id><updated>2014-06-03T22:15:00+02:00</updated><entry><title>mac下django nginx配置备忘录</title><link href="/macxia-django-nginxpei-zhi-bei-wang-lu.html" rel="alternate"></link><updated>2014-06-03T22:15:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-06-03:macxia-django-nginxpei-zhi-bei-wang-lu.html</id><summary type="html">&lt;h4&gt;nginx.conf位置&lt;/h4&gt;
+&lt;p&gt;/usr/local/nginx/conf/nginx.conf&lt;/p&gt;
+&lt;h4&gt;django.xml&lt;/h4&gt;
+&lt;p&gt;置于项目根目录下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;uwsgi&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;socket&amp;gt;&lt;/span&gt;127.0.0.1:1236&lt;span class="nt"&gt;&amp;lt;/socket&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;chdir&amp;gt;&lt;/span&gt;/Users/eric/GIT/YITU/SC/YITU_SER/YITU&lt;span class="nt"&gt;&amp;lt;/chdir&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;pythonpath&amp;gt;&lt;/span&gt;..&lt;span class="nt"&gt;&amp;lt;/pythonpath&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;wsgi&lt;span class="nt"&gt;&amp;lt;/module&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/uwsgi&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;启动服务&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo nginx
+
+uwsgi -x /root/my_django/uwsgi.xml
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="Django"></category></entry><entry><title>Django学习笔记</title><link href="/djangoxue-xi-bi-ji.html" rel="alternate"></link><updated>2014-06-02T20:32:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-06-02:djangoxue-xi-bi-ji.html</id><summary type="html">&lt;h2&gt;数据库建表&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;检查model是否有效&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py validate&lt;/code&gt;
+* 生成create table语句&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py sqlall books&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;同步数据库命令&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;python manage.py syncdb&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="Python"></category><category term="Django"></category></entry><entry><title>python笔记</title><link href="/pythonbi-ji.html" rel="alternate"></link><updated>2014-05-28T23:06:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-05-28:pythonbi-ji.html</id><summary type="html">&lt;h5&gt;1.定义私有变量，在变量前面加2个下划线'__'&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;people:&lt;/span&gt;    
+    &lt;span class="n"&gt;__name&lt;/span&gt; = &lt;span class="s"&gt;&amp;#39;jack&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;__age&lt;/span&gt; = &lt;span class="mi"&gt;12&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;2.类常用的内置方法&lt;/h5&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;内置方法&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;__init__(self,...)&lt;/td&gt;
+&lt;td&gt;初始化对象，在创建新对象时调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__del__(self)&lt;/td&gt;
+&lt;td&gt;释放对象，在对象被删除之前调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__new__(cls,*args,**kwd)&lt;/td&gt;
+&lt;td&gt;实例的生成操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__str__(self)&lt;/td&gt;
+&lt;td&gt;在使用print语句时被调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getitem__(self,key)&lt;/td&gt;
+&lt;td&gt;获取序列的索引key对应的值，等价于seq[key]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__len__(self)&lt;/td&gt;
+&lt;td&gt;在调用内联函数len( )时被调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__cmp__(stc,dst)&lt;/td&gt;
+&lt;td&gt;比较两个对象src和dst&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getattr__(s,name)&lt;/td&gt;
+&lt;td&gt;获取属性的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__setattr__(s,name,value)&lt;/td&gt;
+&lt;td&gt;设置属性的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__delattr__(s,name)&lt;/td&gt;
+&lt;td&gt;删除name属性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__getattribute__( )&lt;/td&gt;
+&lt;td&gt;__getattribute__( )功能与__getattr__( )类似&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__gt__(self,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否大于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__lt__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否小于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__ge__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否大于或者等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__le__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否小于或者等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__eq__(slef,other)&lt;/td&gt;
+&lt;td&gt;判断self对象是否等于other对象&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;__call__(self,*args)&lt;/td&gt;
+&lt;td&gt;把实例对象作为函数调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5&gt;3.利用__new__生成单例&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+    &lt;span class="n"&gt;__instance&lt;/span&gt; = &lt;span class="n"&gt;None&lt;/span&gt;                       &lt;span class="c-Singleline"&gt;# 定义实例&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__new__&lt;/span&gt;(&lt;span class="n"&gt;cls&lt;/span&gt;, *&lt;span class="n"&gt;args&lt;/span&gt;, **&lt;span class="n"&gt;kwd&lt;/span&gt;):         &lt;span class="c-Singleline"&gt;# 在__init__之前调用&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;None:&lt;/span&gt;    &lt;span class="c-Singleline"&gt;# 生成唯一实例&lt;/span&gt;
+            &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt; = &lt;span class="n"&gt;object&lt;/span&gt;.&lt;span class="n"&gt;__new__&lt;/span&gt;(&lt;span class="n"&gt;cls&lt;/span&gt;, *&lt;span class="n"&gt;args&lt;/span&gt;, **&lt;span class="n"&gt;kwd&lt;/span&gt;)
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Singleton&lt;/span&gt;.&lt;span class="n"&gt;__instance&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;4.方法继承&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# 方法继承，去掉return重写方法
+def age(self):
+    print 10
+    return super(Men, self).age()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;5.将对象属性转为字典&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;# 将对象属性转为dict
+print men.__dict__
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;6.当前时间戳&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+&lt;span class="c"&gt;# time.time()返回当前时间戳&lt;/span&gt;
+&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;born&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;7.property属性&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Men&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__init__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="n"&gt;super&lt;/span&gt;(&lt;span class="n"&gt;Person&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;).&lt;span class="n"&gt;__init__&lt;/span&gt;()
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt; = &lt;span class="mi"&gt;0&lt;/span&gt;
+
+    &lt;span class="c-Singleline"&gt;# 用property特性访问私有变量&lt;/span&gt;
+    &lt;span class="nv"&gt;@property&lt;/span&gt;
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="nb"&gt;value&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt;
+
+    &lt;span class="c-Singleline"&gt;# 用property特性设置私有变量&lt;/span&gt;
+    &lt;span class="nv"&gt;@value&lt;/span&gt;.&lt;span class="n"&gt;setter&lt;/span&gt;
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="nb"&gt;value&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;, &lt;span class="nb"&gt;value&lt;/span&gt;):
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;__value&lt;/span&gt; = &lt;span class="nb"&gt;value&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;8.__getattr__(self, name)方法&lt;/h5&gt;
+&lt;p&gt;可以用来查询限时生成的属性，name为属性名&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果在__init__方法初始化了某个属性，是不进入此方法的&lt;/li&gt;
+&lt;li&gt;但如果重写__getattr__方法（不继承super），又进入此方法了,如果是继承__getattr__，就不进&lt;/li&gt;
+&lt;li&gt;此方法不能继承:AttributeError: 'super' object has no attribute '__getattr__'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;--&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="n"&gt;Men&lt;/span&gt;(&lt;span class="n"&gt;object&lt;/span&gt;):
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__init__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;):
+        &lt;span class="n"&gt;super&lt;/span&gt;(&lt;span class="n"&gt;Men&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;).&lt;span class="n"&gt;__init__&lt;/span&gt;()
+        &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt; = &lt;span class="mi"&gt;21&lt;/span&gt;
+
+    &lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;__getattr__&lt;/span&gt;(&lt;span class="k"&gt;self&lt;/span&gt;, &lt;span class="nb"&gt;name&lt;/span&gt;):
+        &lt;span class="k"&gt;if&lt;/span&gt; (&lt;span class="nb"&gt;name&lt;/span&gt; == &lt;span class="s"&gt;&amp;#39;girls&amp;#39;&lt;/span&gt;):
+            &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;in __getattr__ girls&amp;#39;&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;33&lt;/span&gt;
+        &lt;span class="n"&gt;elif&lt;/span&gt; (&lt;span class="nb"&gt;name&lt;/span&gt; == &lt;span class="s"&gt;&amp;#39;age&amp;#39;&lt;/span&gt;):
+            &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;in __getattr__ age&amp;#39;&lt;/span&gt;, &lt;span class="k"&gt;self&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;55&lt;/span&gt;
+
+    &lt;span class="n"&gt;men&lt;/span&gt; = &lt;span class="n"&gt;Men&lt;/span&gt;()  
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;men&lt;/span&gt;.&lt;span class="n"&gt;age&lt;/span&gt;       &lt;span class="c-Singleline"&gt;#print 21,age已在__init__声明,不进入__getattr__&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;men&lt;/span&gt;.&lt;span class="n"&gt;girls&lt;/span&gt;     &lt;span class="c-Singleline"&gt;#print 33,进入__getattr__&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;9.packing&lt;/h5&gt;
+&lt;p&gt;&lt;strong&gt;*args:接受单值参数，以元组形式保存&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;**kwds:接受赋值参数，以字典形式保存&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;def func(*name):
+    print type(name)
+    print name
+
+func(1, 2, 3, 4, 5)         #(1, 2, 3, 4, 5)
+
+func(&amp;#39;sf&amp;#39;, &amp;#39;sf&amp;#39;, &amp;#39;error&amp;#39;)   #(&amp;#39;sf&amp;#39;, &amp;#39;sf&amp;#39;, &amp;#39;error&amp;#39;)
+
+def func1(**dict):
+    print type(dict)
+    print dict
+
+func1(a=1, b=2, c=3)
+
+func1(c=2, d=5, xx=&amp;#39;33&amp;#39;, ee=&amp;#39;44&amp;#39;, aa=&amp;#39;2&amp;#39;)
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="Django"></category></entry></feed>
