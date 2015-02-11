@@ -112,4 +112,232 @@ process connect connect://192.168.2.112:1234
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;UIApplicationMain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;NSStringFromClass&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;WQMainPageAppDelegate&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;  
     &lt;span class="p"&gt;}&lt;/span&gt;  
 &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry><entry><title>IOS Http断点续传浅析</title><link href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="alternate"></link><updated>2013-08-09T15:32:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2013-08-09:ios-httpduan-dian-xu-chuan-qian-xi.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;http实现断点续传的关键地方就是在httprequest中加入“Range”头。&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="nl"&gt;addValue&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;bytes=500-&amp;quot;&lt;/span&gt; &lt;span class="nl"&gt;forHTTPHeaderField&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;Range&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果服务器正确响应的话，就可以顺利续传；如果服务器不支持，那就只能用其它方法了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;经过测试，服务器的不支持分为两种情况：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.完全没响应&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果不处理会导致文件无法下载。&lt;/p&gt;
+&lt;p&gt;测试地址：http://dl_dir.qq.com/qqfile/qq/QQforMac/QQ_V2.4.2.dmg&lt;/p&gt;
+&lt;p&gt;发送请求后，过一段时间直接进入了didFailWithError的delegate;错误信息为time out。&lt;/p&gt;
+&lt;p&gt;针对这种情况可以做出的处理是：增加一个是否支持断点续传的标志。&lt;/p&gt;
+&lt;p&gt;具体：&lt;/p&gt;
+&lt;p&gt;第一次请求，开始字节为0，不用发送Range头，可以正常下载；&lt;/p&gt;
+&lt;p&gt;当下载中断，开始第二次请求，开始字节不为0，发送range头；&lt;/p&gt;
+&lt;p&gt;如果进入didFailWithError的delegate,就标明此链接不可以断点续传，每次请求前都清除缓存，保证开始的字节为0，不发送Range头。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.无论发送Range的值是多少，服务器都会重新下载。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果不处理，会导致续传过的文件出错。&lt;/p&gt;
+&lt;p&gt;测试地址：https://github.com/CocoaPods/CocoaPods/archive/master.zip&lt;/p&gt;
+&lt;p&gt;这种情况的处理方案是：&lt;/p&gt;
+&lt;p&gt;第一次收到响应的时候，就把文件的总大小记录下来；&lt;/p&gt;
+&lt;p&gt;以后每次收到响应的时候都比较一下下载长度和总大小是不是一样；&lt;/p&gt;
+&lt;p&gt;如果一样而且又存在缓存；就表明属于这种情况了；直接删掉缓存，重新下载。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;下面是用NSURLConnection实现http断点续传的实例：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;针对上面两种做了简单的处理，回调函数还有待添加&lt;/p&gt;
+&lt;p&gt;MXDownload.h文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;@interface&lt;/span&gt; &lt;span class="nc"&gt;MXDownload&lt;/span&gt; : &lt;span class="bp"&gt;NSObject&lt;/span&gt;
+
+&lt;span class="c1"&gt;//文件名路径&lt;/span&gt;
+&lt;span class="k"&gt;@property&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;nonatomic&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;readonly&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;filePath&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//是否正在下载的标志&lt;/span&gt;
+&lt;span class="k"&gt;@property&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;nonatomic&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;readonly&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kt"&gt;BOOL&lt;/span&gt; &lt;span class="n"&gt;downloading&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//初始化&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;initWithUrlString:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;urlString&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//两个状态&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;start&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//清除缓存&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;clearCache&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;@end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;MXDownload.m文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#import &amp;quot;MXDownload.h&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;#import &amp;quot;NSString+MX.h&amp;quot;&lt;/span&gt;
+
+&lt;span class="cp"&gt;#define FILE_INFO_PLIST [NSString   pathWithName:@&amp;quot;MXDownload/fileInfo.plist&amp;quot;   directory:NSCachesDirectory]&lt;/span&gt;
+
+&lt;span class="k"&gt;@interface&lt;/span&gt; &lt;span class="nc"&gt;MXDownload&lt;/span&gt; &lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_urlConnection&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_urlString&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;BOOL&lt;/span&gt; &lt;span class="n"&gt;_downloading&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_didAddRange&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_shouldResume&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_fileName&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="bp"&gt;NSFileHandle&lt;/span&gt;        &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;_fileHandle&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;unsigned&lt;/span&gt; &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="kt"&gt;long&lt;/span&gt;  &lt;span class="n"&gt;_fileOffset&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileSize&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;@end&lt;/span&gt;
+
+&lt;span class="k"&gt;@implementation&lt;/span&gt; &lt;span class="nc"&gt;MXDownload&lt;/span&gt;
+&lt;span class="k"&gt;@synthesize&lt;/span&gt; &lt;span class="n"&gt;downloading&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_downloading&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;@synthesize&lt;/span&gt; &lt;span class="n"&gt;filePath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_filePath&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//初始化，顺便设置下载文件和下载临时文件路径&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;initWithUrlString:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;urlString&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;super&lt;/span&gt; &lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="n"&gt;_urlString&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urlString&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;_shouldResume&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;YES&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_urlString&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;_fileName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_urlString&lt;/span&gt; &lt;span class="n"&gt;MD5&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;_filePath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="nl"&gt;pathWithName&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="nl"&gt;stringWithFormat&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;MXDownload/ %@&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileName&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;directory&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;NSCachesDirectory&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="nl"&gt;stringWithFormat&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;%@.temp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//开始下载&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;start&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//如果正在下载，中断&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_downloading&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;//没有url，也中断&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;_urlString&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;//临时文件句柄&lt;/span&gt;
+    &lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSFileHandle&lt;/span&gt; &lt;span class="nl"&gt;fileHandleForWritingAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="c1"&gt;//获取本次请求下载开始的位置,如果文件不存在，就是0&lt;/span&gt;
+    &lt;span class="n"&gt;_fileOffset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="n"&gt;seekToEndOfFile&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;//初始化请求&lt;/span&gt;
+    &lt;span class="bp"&gt;NSMutableURLRequest&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSMutableURLRequest&lt;/span&gt; &lt;span class="n"&gt;alloc&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;initWithURL&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="bp"&gt;NSURL&lt;/span&gt;  &lt;span class="nl"&gt;URLWithString&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_urlString&lt;/span&gt;&lt;span class="p"&gt;]];&lt;/span&gt;
+    &lt;span class="c1"&gt;//设置缓存策略，很重要，因为文件是自己储存的，和缓存无关，所以要忽略缓存&lt;/span&gt;
+    &lt;span class="c1"&gt;//要不然第二次请求会出错&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="nl"&gt;setCachePolicy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;NSURLRequestReloadIgnoringLocalCacheData&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="c1"&gt;//最关键地方，设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾&lt;/span&gt;
+    &lt;span class="n"&gt;_didAddRange&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;NO&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_fileOffset&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;_shouldResume&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="nl"&gt;addValue&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="bp"&gt;NSString&lt;/span&gt; &lt;span class="nl"&gt;stringWithFormat&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;bytes=%llu-&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileOffset&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;    &lt;span class="nl"&gt;forHTTPHeaderField&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;Range&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="n"&gt;_didAddRange&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;YES&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;_urlConnection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="n"&gt;alloc&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;initWithRequest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="nl"&gt;delegate&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_urlConnection&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="n"&gt;_downloading&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;YES&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//结束下载&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_urlConnection&lt;/span&gt; &lt;span class="n"&gt;cancel&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;_urlConnection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="n"&gt;closeFile&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;_downloading&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;NO&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//清除文件&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;clearCache&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_downloading&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="n"&gt;defaultManager&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;removeItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="n"&gt;defaultManager&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;removeItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cp"&gt;#pragma mark -&lt;/span&gt;
+&lt;span class="cp"&gt;#pragma mark NSURLConnectionDelegate&lt;/span&gt;
+
+&lt;span class="c1"&gt;//接收到响应&lt;/span&gt;
+&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;connection:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;connection&lt;/span&gt; &lt;span class="nf"&gt;didReceiveResponse:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSURLResponse&lt;/span&gt;  &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;response&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//本次请求回来的文件大小&lt;/span&gt;
+    &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="n"&gt;fileLength&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expectedContentLength&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fileLength&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;NSURLResponseUnknownLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="bp"&gt;NSData&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;existFileData&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSData&lt;/span&gt; &lt;span class="n"&gt;alloc&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;initWithContentsOfFile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="c1"&gt;//检查文件是否已下载完成&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;existFileData&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;existFileData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;fileLength&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;NSLog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;之前已经下载好了&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;//保存文件的总大小&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;_didAddRange&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+            &lt;span class="bp"&gt;NSMutableDictionary&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSMutableDictionary&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="nl"&gt;addEntriesFromDictionary&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="bp"&gt;NSDictionary&lt;/span&gt;     &lt;span class="nl"&gt;dictionaryWithContentsOfFile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;FILE_INFO_PLIST&lt;/span&gt;&lt;span class="p"&gt;]];&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="nl"&gt;setValue&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="bp"&gt;NSNumber&lt;/span&gt; &lt;span class="nl"&gt;numberWithLongLong&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;fileLength&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="nl"&gt;forKey&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_fileName&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="nl"&gt;writeToFile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;FILE_INFO_PLIST&lt;/span&gt; &lt;span class="nl"&gt;atomically&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;YES&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="n"&gt;defaultManager&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="c1"&gt;//先清除掉旧的文件&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="nl"&gt;removeItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+        &lt;span class="c1"&gt;//如果此次请求回来的大小等于文件的总大小而且临时文件又存在，则删除临时文件&lt;/span&gt;
+        &lt;span class="c1"&gt;//解决每次请求都是重新开始的问题&lt;/span&gt;
+        &lt;span class="bp"&gt;NSDictionary&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSDictionary&lt;/span&gt; &lt;span class="nl"&gt;dictionaryWithContentsOfFile&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;FILE_INFO_PLIST&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="kt"&gt;BOOL&lt;/span&gt; &lt;span class="n"&gt;isTotalLength&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fileLength&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;dic&lt;/span&gt; &lt;span class="nl"&gt;valueForKey&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_fileName&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;longLongValue&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="nl"&gt;fileExistsAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;isTotalLength&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="nl"&gt;removeItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="c1"&gt;//重新创建文件&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="nl"&gt;fileExistsAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt;&lt;span class="p"&gt;]){&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;fileManager&lt;/span&gt; &lt;span class="nl"&gt;createFileAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="nl"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt; &lt;span class="nl"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;NSFileHandle&lt;/span&gt; &lt;span class="nl"&gt;fileHandleForWritingAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+            &lt;span class="n"&gt;_fileOffset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="n"&gt;_fileSize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fileLength&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;_fileOffset&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="c1"&gt;//用_fileOffset可以检查是重新下载还是继续下载&lt;/span&gt;
+        &lt;span class="n"&gt;NSLog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;%@&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileOffset&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="s"&gt;@&amp;quot;继续下载&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s"&gt;@&amp;quot;开始下载&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//不断接收到数据&lt;/span&gt;
+&lt;span class="p"&gt;-(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;connection:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;connection&lt;/span&gt; &lt;span class="nf"&gt;didReceiveData:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSData&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;aData&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//写入文件&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="nl"&gt;writeData&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;aData&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;_fileOffset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_fileHandle&lt;/span&gt; &lt;span class="n"&gt;offsetInFile&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;NSLog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;下载进度: %lld / %lld&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileOffset&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;_fileSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;-(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;connection:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;connection&lt;/span&gt; &lt;span class="nf"&gt;didFailWithError:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSError&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;error&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="c1"&gt;//如果不支持续传，删掉临时文件再试一次&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_shouldResume&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;_shouldResume&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;NO&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="n"&gt;defaultManager&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;removeItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;//完成&lt;/span&gt;
+&lt;span class="p"&gt;-(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;connectionDidFinishLoading:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;NSURLConnection&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;connection&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="bp"&gt;NSFileManager&lt;/span&gt; &lt;span class="n"&gt;defaultManager&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;moveItemAtPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_tempFilePath&lt;/span&gt; &lt;span class="nl"&gt;toPath&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;_filePath&lt;/span&gt; &lt;span class="nl"&gt;error&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;NSLog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;下载完成&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;@end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;调用：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;IBAction&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nf"&gt;startDownLoad:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;sender&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_downloader&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+&lt;span class="c1"&gt;//        _downloader = [[MXDownload alloc] initWithUrlString:@&amp;quot;https://github.com/ CocoaPods/CocoaPods/archive/master.zip&amp;quot;];&lt;/span&gt;
+        &lt;span class="n"&gt;_downloader&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;MXDownload&lt;/span&gt; &lt;span class="n"&gt;alloc&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="nl"&gt;initWithUrlString&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s"&gt;@&amp;quot;http://dl_dir.qq.com/ qqfile/qq/QQforMac/QQ_V2.4.2.dmg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="c1"&gt;//        _downloader = [[MXDownload alloc] initWithUrlString:@&amp;quot;http:// 192.168.50.19:8080/vcont/wb.mp3&amp;quot;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_downloader&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;downloading&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_downloader&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;_downloader&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry></feed>
