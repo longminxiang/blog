@@ -1,5 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2014-11-03T10:20:00+01:00</updated><entry><title>C学习</title><link href="/cxue-xi.html" rel="alternate"></link><updated>2014-11-03T10:20:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-11-03:cxue-xi.html</id><summary type="html">&lt;h3&gt;1.sizeof&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>eric的博客</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-04-07T16:30:00+02:00</updated><entry><title>ClangFormat-Xcode个性化配置</title><link href="/clangformat-xcodege-xing-hua-pei-zhi.html" rel="alternate"></link><updated>2015-04-07T16:30:00+02:00</updated><author><name>Eric Lung</name></author><id>tag:,2015-04-07:clangformat-xcodege-xing-hua-pei-zhi.html</id><summary type="html">&lt;h5&gt;1. 下载&lt;a href="https://github.com/travisjeffery/ClangFormat-Xcode"&gt;ClangFormat-Xcode&lt;/a&gt;&lt;/h5&gt;
+&lt;h5&gt;2. 解压，进入文件夹，打开项目，command+b安装插件，重启xcode&lt;/h5&gt;
+&lt;h5&gt;3. 个性化配置，打开终端运行&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./bin/clang-format -style=llvm -dump-config &amp;gt; xx
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;4. 编辑xx,参照&lt;a href="http://clang.llvm.org/docs/ClangFormatStyleOptions.html"&gt;clang documentation&lt;/a&gt;进行配置&lt;/h5&gt;
+&lt;h5&gt;5. 复制xx到用户根目录，终端运行&lt;/h5&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cp xx ~/.clang-format
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;6. xcode选择 Edit -&amp;gt; Clang Format -&amp;gt; File&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="" src="static/images/2015040740920.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;配置备忘录&lt;/h3&gt;
+&lt;p&gt;根据LLVM格式调整&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;---&lt;/span&gt;
+&lt;span class="n"&gt;Language&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="n"&gt;Cpp&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt; &lt;span class="n"&gt;BasedOnStyle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="n"&gt;LLVM&lt;/span&gt;
+&lt;span class="n"&gt;AccessModifierOffset&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;AlignAfterOpenBracket&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;AlignEscapedNewlinesLeft&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;AlignOperands&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;AlignTrailingComments&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;AllowAllParametersOfDeclarationOnNextLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;AllowShortBlocksOnASingleLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;AllowShortCaseLabelsOnASingleLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;允许单行&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="err"&gt;语句&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="err"&gt;;原&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;AllowShortIfStatementsOnASingleLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;AllowShortLoopsOnASingleLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;允许单行函数;&lt;/span&gt;&lt;span class="n"&gt;int&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="err"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="err"&gt;，原&lt;/span&gt;&lt;span class="n"&gt;All&lt;/span&gt;
+&lt;span class="n"&gt;AllowShortFunctionsOnASingleLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;None&lt;/span&gt;
+&lt;span class="n"&gt;AlwaysBreakAfterDefinitionReturnType&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;AlwaysBreakTemplateDeclarations&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;AlwaysBreakBeforeMultilineStrings&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;BreakBeforeBinaryOperators&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;None&lt;/span&gt;
+&lt;span class="n"&gt;BreakBeforeTernaryOperators&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;BreakConstructorInitializersBeforeComma&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;BinPackParameters&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;BinPackArguments&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;每行字数&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;原&lt;/span&gt;&lt;span class="mi"&gt;80&lt;/span&gt;
+&lt;span class="n"&gt;ColumnLimit&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;     &lt;span class="mi"&gt;300&lt;/span&gt;
+&lt;span class="n"&gt;ConstructorInitializerAllOnOneLineOrOnePerLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;ConstructorInitializerIndentWidth&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;DerivePointerAlignment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;ExperimentalAutoDetectBinPacking&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;IndentCaseLabels&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;IndentWrappedFunctionNames&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;IndentFunctionDeclarationAfterType&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;最大空行数，原&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;MaxEmptyLinesToKeep&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;KeepEmptyLinesAtTheStartOfBlocks&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;NamespaceIndentation&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;None&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="err"&gt;缩进，原&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;ObjCBlockIndentWidth&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="n"&gt;Property&lt;/span&gt;&lt;span class="err"&gt;后加空格，原&lt;/span&gt;&lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;ObjCSpaceAfterProperty&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;ObjCSpaceBeforeProtocolList&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyBreakBeforeFirstCallParameter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyBreakComment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;300&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyBreakString&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyBreakFirstLessLess&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyExcessCharacter&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1000000&lt;/span&gt;
+&lt;span class="n"&gt;PenaltyReturnTypeOnItsOwnLine&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;
+&lt;span class="n"&gt;PointerAlignment&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Right&lt;/span&gt;
+&lt;span class="n"&gt;SpacesBeforeTrailingComments&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;Cpp11BracedListStyle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;Standard&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="n"&gt;Cpp11&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;缩进，原&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;span class="n"&gt;IndentWidth&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;     &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;TabWidth&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="mi"&gt;8&lt;/span&gt;
+&lt;span class="n"&gt;UseTab&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;          &lt;span class="n"&gt;Never&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;函数大括号位置，原&lt;/span&gt;&lt;span class="n"&gt;Attach&lt;/span&gt;
+&lt;span class="n"&gt;BreakBeforeBraces&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Linux&lt;/span&gt;
+&lt;span class="n"&gt;SpacesInParentheses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpacesInSquareBrackets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpacesInAngles&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpaceInEmptyParentheses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpacesInCStyleCastParentheses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpaceAfterCStyleCast&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="o"&gt;[]&lt;/span&gt;&lt;span class="err"&gt;里面两边空格，原&lt;/span&gt;&lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;SpacesInContainerLiterals&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="n"&gt;SpaceBeforeAssignmentOperators&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;true&lt;/span&gt;
+&lt;span class="n"&gt;ContinuationIndentWidth&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;CommentPragmas&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="c"&gt;&amp;#39;^ IWYU pragma:&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;ForEachMacros&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Q_FOREACH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;BOOST_FOREACH&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;SpaceBeforeParens&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;ControlStatements&lt;/span&gt;
+&lt;span class="n"&gt;DisableFormat&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   &lt;span class="k"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry><entry><title>C学习</title><link href="/cxue-xi.html" rel="alternate"></link><updated>2014-11-03T10:20:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-11-03:cxue-xi.html</id><summary type="html">&lt;h3&gt;1.sizeof&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;int main(void)
 {
     struct Z { char a; char b; char c; };
@@ -277,22 +367,22 @@ func1(c=2, d=5, xx=&amp;#39;33&amp;#39;, ee=&amp;#39;44&amp;#39;, aa=&amp;#39;2&
 &lt;p&gt;函数名字所有断点&lt;/p&gt;
 &lt;p&gt;br s -M decryptStr&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</summary><category term="iOS"></category></entry><entry><title>lldb远程调试环境安装</title><link href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="alternate"></link><updated>2014-03-10T20:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-10:lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html</id><summary type="html">&lt;h2&gt;1.打开终端，运行&lt;/h2&gt;
+&lt;/ul&gt;</summary><category term="iOS"></category></entry><entry><title>lldb远程调试环境安装</title><link href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="alternate"></link><updated>2014-03-10T20:50:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-10:lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html</id><summary type="html">&lt;h4&gt;1.打开终端，运行&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;2.拷贝debugserver&lt;/h2&gt;
+&lt;h4&gt;2.拷贝debugserver&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;3.切换到桌面&lt;/h2&gt;
+&lt;h4&gt;3.切换到桌面&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;cd ~/Desktop
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;4.新建一个plist文件保存为e.plist&lt;/p&gt;
+&lt;h4&gt;4.新建一个plist文件保存为e.plist&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
 &lt;span class="cp"&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;quot;-//Apple//DTD PLIST 1.0//EN&amp;quot; &amp;quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;quot;&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;plist&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
@@ -310,32 +400,32 @@ func1(c=2, d=5, xx=&amp;#39;33&amp;#39;, ee=&amp;#39;44&amp;#39;, aa=&amp;#39;2&
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;5.签名&lt;/p&gt;
+&lt;h4&gt;5.签名&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;codesign -s - --entitlements e.plist -f debugserver
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;6.拷贝debugserver到越狱iOS设备&lt;/p&gt;
+&lt;h4&gt;6.拷贝debugserver到越狱iOS设备&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;scp&lt;/span&gt; &lt;span class="n"&gt;debugserver&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="mf"&gt;@192.168.2.112&lt;/span&gt;&lt;span class="o"&gt;:~&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;7.ssh到ios设备&lt;/p&gt;
+&lt;h4&gt;7.ssh到ios设备&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;ssh -l root 192.168.2.112
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;8.运行debugserver，1245为线程id&lt;/p&gt;
+&lt;h4&gt;8.运行debugserver，1245为线程id&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;./debugserver *:1234 -a 1245
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;9.在mac终端运行lldb&lt;/p&gt;
+&lt;h4&gt;9.在mac终端运行lldb&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;lldb
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;10.在lldb中运行命令&lt;/p&gt;
+&lt;h4&gt;10.在lldb中运行命令&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;platform select remote-ios
 process connect connect://192.168.2.112:1234
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="iOS"></category></entry><entry><title>瞬间让你的程序高上大</title><link href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="alternate"></link><updated>2014-03-03T20:25:00+01:00</updated><author><name>Eric Lung</name></author><id>tag:,2014-03-03:shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html</id><summary type="html">&lt;h2&gt;strip功能&lt;/h2&gt;

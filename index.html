@@ -48,6 +48,43 @@
             <li>
                 <article class="post-entry">
                     <header class="entry-header">
+                        <time class="post-time" datetime="2015-04-07T16:30:00+02:00" pubdate>
+                            2015-04-07 16:30
+                        </time>
+                        <a href="/clangformat-xcodege-xing-hua-pei-zhi.html" rel="bookmark"><h1>ClangFormat-Xcode个性化配置</h1></a>
+                    </header>
+                    <section class="post-content">
+                        <h5>1. 下载<a href="https://github.com/travisjeffery/ClangFormat-Xcode">ClangFormat-Xcode</a></h5>
+<h5>2. 解压，进入文件夹，打开项目，command+b安装插件，重启xcode</h5>
+<h5>3. 个性化配置，打开终端运行</h5>
+<div class="highlight"><pre>./bin/clang-format -style=llvm -dump-config &gt; xx
+</pre></div>
+
+
+<h5>4. 编辑xx,参照<a href="http://clang.llvm.org/docs/ClangFormatStyleOptions.html">clang documentation</a>进行配置</h5>
+<h5>5. 复制xx到用户根目录，终端运行</h5>
+<div class="highlight"><pre>cp xx ~/.clang-format
+</pre></div>
+
+
+<h5>6. xcode选择 Edit -&gt; Clang Format -&gt; File</h5>
+<p><img alt="" src="static/images/2015040740920.png" /></p>
+<h3>配置备忘录</h3>
+<p>根据LLVM格式调整</p>
+<div class="highlight"><pre><span class="o">---</span>
+<span class="n">Language</span><span class="p">:</span>        <span class="n">Cpp</span>
+<span class="p">#</span> <span class="n">BasedOnStyle</span><span class="p">:</span>  <span class="n">LLVM</span>
+<span class="n">AccessModifierOffset</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span>
+<span class="n">AlignAfterOpenBracket</span><span class="p">:</span> <span class="k">true</span>
+<span class="n">AlignEscapedNewlinesLeft</span><span class="p">:</span> <span class="k">false</span>
+<span class="n">AlignOperands ...</span></pre></div>
+                    </section>
+                </article>
+            </li>
+            <hr/>
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
                         <time class="post-time" datetime="2014-11-03T10:20:00+01:00" pubdate>
                             2014-11-03 10:20
                         </time>
@@ -247,22 +284,22 @@ uwsgi -x /root/my_django/uwsgi.xml
                         <a href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="bookmark"><h1>lldb远程调试环境安装</h1></a>
                     </header>
                     <section class="post-content">
-                        <h2>1.打开终端，运行</h2>
+                        <h4>1.打开终端，运行</h4>
 <div class="highlight"><pre>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
 </pre></div>
 
 
-<h2>2.拷贝debugserver</h2>
+<h4>2.拷贝debugserver</h4>
 <div class="highlight"><pre>cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
 </pre></div>
 
 
-<h2>3.切换到桌面</h2>
+<h4>3.切换到桌面</h4>
 <div class="highlight"><pre>cd ~/Desktop
 </pre></div>
 
 
-<p>4.新建一个plist文件保存为e.plist</p>
+<h4>4.新建一个plist文件保存为e.plist</h4>
 <div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http ...</span></pre></div>
                     </section>
