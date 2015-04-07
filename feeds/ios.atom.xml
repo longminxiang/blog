@@ -13,7 +13,7 @@
 
 
 &lt;h5&gt;6. xcode选择 Edit -&amp;gt; Clang Format -&amp;gt; File&lt;/h5&gt;
-&lt;p&gt;&lt;img alt="" src="static/images/2015040740920.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/static/images/2015040740920.png" /&gt;&lt;/p&gt;
 &lt;h3&gt;配置备忘录&lt;/h3&gt;
 &lt;p&gt;根据LLVM格式调整&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;---&lt;/span&gt;
