@@ -8,9 +8,9 @@
     <meta name="copyright" content="Eric Long" />
     <meta property="og:type" content="article" />
 
-<meta name="keywords" content="iOS, iOS, " />
+<meta name="keywords" content="Other, Other, " />
 
-    <title>瞬间让你的程序高上大</title>
+    <title>Markdown导出含有目录的pdf</title>
 <script type="text/javascript" src="/theme/js/jquery-1.12.0.min.js"></script>
 <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/theme/tipuesearch/tipuesearch_set.js"></script>
@@ -62,50 +62,23 @@
       <div class="panel-body">
         <header>
           <h1 class="entry-title">
-            <a href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="bookmark"
-               title="Permalink to 瞬间让你的程序高上大">瞬间让你的程序高上大</a></h1>
+            <a href="/markdowndao-chu-han-you-mu-lu-de-pdf.html" rel="bookmark"
+               title="Permalink to Markdown导出含有目录的pdf">Markdown导出含有目录的pdf</a></h1>
         </header>
         <hr/>
         <div class="entry-content">
-          <h2>strip功能</h2>
-<p>代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积，对控制安装包大小很有好处。</p>
-<p>开启strip只须下面几步</p>
-<ol>
-<li>
-<p>编译选项中搜索Strip</p>
-</li>
-<li>
-<p>Strip Linked Product = Yes</p>
-</li>
-<li>
-<p>Deployment Postprocessing = YES</p>
-</li>
-</ol>
-<h2>阻止GDB调试</h2>
-<div class="highlight"><pre><span></span><span class="c1">#import &lt;dlfcn.h&gt;  </span>
-<span class="c1">#import &lt;sys/types.h&gt;</span>
+          <p>先导出html</p>
+<p>再用wkhtmltopdf导出</p>
+<p>wkhtmltopdf : <a href="http://wkhtmltopdf.org/downloads.html">http://wkhtmltopdf.org/downloads.html</a></p>
+<p>使用</p>
+<div class="highlight"><pre><span></span>wkhtmltopdf xxx.html xxx.pdf
+</pre></div>
 
-<span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">ptrace_ptr_t</span><span class="p">)(</span><span class="nb">int</span> <span class="n">_request</span><span class="p">,</span> <span class="n">pid_t</span> <span class="n">_pid</span><span class="p">,</span> <span class="n">caddr_t</span> <span class="n">_addr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_data</span><span class="p">);</span>  
-<span class="c1">#if !defined(PT_DENY_ATTACH)  </span>
-<span class="c1">#define PT_DENY_ATTACH 31  </span>
-<span class="c1">#endif  // !defined(PT_DENY_ATTACH)</span>
 
-<span class="n">void</span> <span class="n">disable_gdb</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">void</span><span class="o">*</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">RTLD_GLOBAL</span> <span class="o">|</span> <span class="n">RTLD_NOW</span><span class="p">);</span>  
-    <span class="n">ptrace_ptr_t</span> <span class="n">ptrace_ptr</span> <span class="o">=</span> <span class="n">dlsym</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;ptrace&quot;</span><span class="p">);</span>  
-    <span class="n">ptrace_ptr</span><span class="p">(</span><span class="n">PT_DENY_ATTACH</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  
-    <span class="n">dlclose</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>  
-<span class="p">}</span>
-
-<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">charchar</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>  
-<span class="p">{</span>  
-    <span class="c1">#ifndef DEBUG  </span>
-        <span class="n">disable_gdb</span><span class="p">();</span>  
-    <span class="c1">#endif  </span>
-    <span class="nd">@autoreleasepool</span> <span class="p">{</span>  
-        <span class="k">return</span> <span class="n">UIApplicationMain</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">nil</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">WQMainPageAppDelegate</span> <span class="n">class</span><span class="p">]));</span>  
-    <span class="p">}</span>  
-<span class="p">}</span>
+<h3>分页</h3>
+<p>md加入---</p>
+<p>修改css样式，在hr中加入</p>
+<div class="highlight"><pre><span></span><span class="nt">page-break-after</span><span class="o">:</span> <span class="nt">always</span><span class="o">;</span>
 </pre></div>
         </div><!-- /.entry-content -->
     </div>
@@ -123,17 +96,17 @@
     <div class="panel-body">
       <div class="published">
                 <h5>Published</h5>
-                <p><time>2014-03-03 20:25</time></p>
+                <p><time>2014-08-10 12:01</time></p>
       </div>
       <div class="category">
               <h5>Category</h5>
-              <p><a class="btn btn-default btn-xs" type="button" href="/categories.html#ios-ref">iOS</a></p>
+              <p><a class="btn btn-default btn-xs" type="button" href="/categories.html#other-ref">Other</a></p>
       </div>
       <div class="tags">
             <h5>Tags</h5>
             <ul class="list-inline list-of-tags tags-in-article">
-                <li><a class="btn btn-default btn-xs" type="button" href="/tags.html#ios-ref">iOS
-                    <span class="badge">3</span>
+                <li><a class="btn btn-default btn-xs" type="button" href="/tags.html#other-ref">Other
+                    <span class="badge">2</span>
 </a></li>
             </ul>
       </div>

@@ -1,154 +1,175 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>eric的博客 - iOS</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-            <link rel="stylesheet" href="/theme/css/normalize.css">
-        <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/theme/css/main.css">
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-width, initial-scale=1">
+    <meta name="author" content="Eric Long" />
+    <meta name="copyright" content="Eric Long" />
+    <meta property="og:type" content="article" />
 
-    <link rel="stylesheet" href="/theme/css/blog.css">
-    <link rel="stylesheet" href="/theme/css/github.css">
-        <script src="/theme/js/vendor/modernizr-2.6.2.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+<meta property="og:url" content="/" />
+<meta property="og:site_name" content="EricLonger" />
+<meta property="og:article:author" content="Eric Long" />
 
-        <div id="wrapper">
-<header id="sidebar" class="side-shadow">
-    <hgroup id="site-header">
-        <a id="site-title" href="/"><h1><i class="icon-coffee"></i> eric的博客</h1></a>
-        <p id="site-desc"></p>
-    </hgroup>
-    <nav>
-        <ul class="navbar" id="nav-links">
-            <li><a href="/category/c.html">C</a></li>
-            <li class="active"><a href="/category/ios.html">iOS</a></li>
-            <li><a href="/category/ndk.html">NDK</a></li>
-            <li><a href="/category/python.html">Python</a></li>
-        </ul> 
-        <ul id="nav-links">
-        </ul>
+    <title>EricLonger</title>
+<script type="text/javascript" src="/theme/js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/theme/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="/theme/tipuesearch/tipuesearch.min.js"></script>
+<link rel="stylesheet" href="/theme/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/theme/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="/theme/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/theme/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/theme/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/theme/css/animate.css" media="screen">
+    <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon" />
+    
+    <!-- GOOGLE_ANALYTICS -->
+</head>
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars fa-lg fa-inverse"></i>
+                </button>
+                <!-- <a class="navbar-brand" href="/">EricLonger</a> -->
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ><a href="/">Home</a></li>
+                    <li ><a href="/categories.html">Categories</a></li>
+                    <li ><a href="/tags.html">Tags</a></li>
+                    <li ><a href="/archives.html">Archives</a></li>
+                </ul>
+                <!-- 
+                <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
+                -->
+            </div>
+        </div>
     </nav>
-</header>
-    <div id="post-container">
-        <ol id="post-list">
-            <li>
-                <article class="post-entry">
-                    <header class="entry-header">
-                        <time class="post-time" datetime="2015-04-07T16:30:00+02:00" pubdate>
-                            2015-04-07 16:30
-                        </time>
-                        <a href="/clangformat-xcodege-xing-hua-pei-zhi.html" rel="bookmark"><h1>ClangFormat-Xcode个性化配置</h1></a>
-                    </header>
-                    <section class="post-content">
-                        <h5>1. 下载<a href="https://github.com/travisjeffery/ClangFormat-Xcode">ClangFormat-Xcode</a></h5>
-<h5>2. 解压，进入文件夹，打开项目，command+b安装插件，重启xcode</h5>
-<h5>3. 个性化配置，打开终端运行</h5>
-<div class="highlight"><pre>./bin/clang-format -style=llvm -dump-config &gt; xx
+    <!-- navbar end -->
+    <div class="container-fluid" id="container">
+        <div class="row-fluid">
+            <div class="col-md-2 fadeInLeft" id="sidebar_left">
+<div class="panel panel-primary">
+    <div class="panel-heading"><i class="fa fa-user"></i></div>
+    <div class="panel-body">
+        <img class="img-rounded" src="/theme/images/author.jpg" alt="..." width="100%" height="100%"/>
+<h3>Eric Long</h3>        <ul class="list-inline">
+ 
+        <li><a href="mailto:longminxiang@163.com" title="My email Address" class="sidebar-social-info" target="_blank"><i class="fa fa-envelope-o sidebar-social-infos"></i></a></li>
+   
+ 
+        <li><a href="https://github.com/longminxiang" title="My github Profile" class="sidebar-social-info" target="_blank"><i class="fa fa-github sidebar-social-infos"></i></a></li>
+   
+        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="/theme/images/qq_qrcode.jpg" width=100% height=100% />' data-title="270041040">
+        <i class="fa fa-qq sidebar-social-infos"></i></a></li>
+        <script type="text/javascript">
+            $(function () {
+                  $('#qq').popover({html : true })
+                })
+        </script>
+   
+        </ul>
+        iOS Docker Swift Python
+    </div>
+</div>
+            </div>
+            <div class="col-md-8" id="center_page">
+    <div id="content" class="row">
+        <ul class="list-group list-unstyled" id="posts-list">
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/lldb-diao-shi-ji-qiao.html" rel="bookmark" title="Permalink to lldb 调试技巧">lldb 调试技巧</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2014-03-12 21:50</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#lldb-ref">lldb</a>
+                        </div>
+                        <div class="entry-content">
+                            <p><strong>地址断点</strong></p>
+<div class="highlight"><pre><span></span>br s -a 0x1ce1bb
 </pre></div>
 
 
-<h5>4. 编辑xx,参照<a href="http://clang.llvm.org/docs/ClangFormatStyleOptions.html">clang documentation</a>进行配置</h5>
-<h5>5. 复制xx到用户根目录，终端运行</h5>
-<div class="highlight"><pre>cp xx ~/.clang-format
+<p><strong>函数名字断点</strong></p>
+<div class="highlight"><pre><span></span>br s -n decryptStr
 </pre></div>
 
 
-<h5>6. xcode选择 Edit -&gt; Clang Format -&gt; File</h5>
-<p><img alt="" src="/static/images/2015040740920.png" /></p>
-<h3>配置备忘录</h3>
-<p>根据LLVM格式调整</p>
-<div class="highlight"><pre><span class="o">---</span>
-<span class="n">Language</span><span class="p">:</span>        <span class="n">Cpp</span>
-<span class="p">#</span> <span class="n">BasedOnStyle</span><span class="p">:</span>  <span class="n">LLVM</span>
-<span class="n">AccessModifierOffset</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span>
-<span class="n">AlignAfterOpenBracket</span><span class="p">:</span> <span class="k">true</span>
-<span class="n">AlignEscapedNewlinesLeft</span><span class="p">:</span> <span class="k">false</span>
-<span class="n">AlignOperands ...</span></pre></div>
-                    </section>
-                </article>
-            </li>
-            <hr/>
-            <li>
-                <article class="post-entry">
-                    <header class="entry-header">
-                        <time class="post-time" datetime="2014-03-12T21:50:00+01:00" pubdate>
-                            2014-03-12 21:50
-                        </time>
-                        <a href="/lldb-diao-shi-ji-qiao.html" rel="bookmark"><h1>lldb 调试技巧</h1></a>
-                    </header>
-                    <section class="post-content">
-                        <ul>
-<li>
-<p>地址断点</p>
-<p>br s -a 0x1ce1bb</p>
-</li>
-<li>
-<p>函数名字断点</p>
-<p>br s -n decryptStr</p>
-</li>
-<li>
-<p>函数名字所有断点</p>
-<p>br s -M decryptStr</p>
-</li>
-</ul>
-                    </section>
-                </article>
-            </li>
-            <hr/>
-            <li>
-                <article class="post-entry">
-                    <header class="entry-header">
-                        <time class="post-time" datetime="2014-03-10T20:50:00+01:00" pubdate>
-                            2014-03-10 20:50
-                        </time>
-                        <a href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="bookmark"><h1>lldb远程调试环境安装</h1></a>
-                    </header>
-                    <section class="post-content">
-                        <h4>1.打开终端，运行</h4>
-<div class="highlight"><pre>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
+<p><strong>函数名字所有断点</strong></p>
+<div class="highlight"><pre><span></span>br s -M decryptStr
+</pre></div>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/lldb-diao-shi-ji-qiao.html" rel="bookmark" title="Permalink to lldb 调试技巧">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="bookmark" title="Permalink to lldb远程调试环境安装">lldb远程调试环境安装</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2014-03-10 20:50</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#lldb-ref">lldb</a>
+                        </div>
+                        <div class="entry-content">
+                            <h4>1.打开终端，运行</h4>
+<div class="highlight"><pre><span></span>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
 </pre></div>
 
 
 <h4>2.拷贝debugserver</h4>
-<div class="highlight"><pre>cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
+<div class="highlight"><pre><span></span>cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
 </pre></div>
 
 
 <h4>3.切换到桌面</h4>
-<div class="highlight"><pre>cd ~/Desktop
+<div class="highlight"><pre><span></span>cd ~/Desktop
 </pre></div>
 
 
 <h4>4.新建一个plist文件保存为e.plist</h4>
-<div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http ...</span></pre></div>
-                    </section>
-                </article>
-            </li>
-            <hr/>
-            <li>
-                <article class="post-entry">
-                    <header class="entry-header">
-                        <time class="post-time" datetime="2014-03-03T20:25:00+01:00" pubdate>
-                            2014-03-03 20:25
-                        </time>
-                        <a href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="bookmark"><h1>瞬间让你的程序高上大</h1></a>
-                    </header>
-                    <section class="post-content">
-                        <h2>strip功能</h2>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="bookmark" title="Permalink to lldb远程调试环境安装">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="bookmark" title="Permalink to 瞬间让你的程序高上大">瞬间让你的程序高上大</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2014-03-03 20:25</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#ios-ref">iOS</a>
+                        </div>
+                        <div class="entry-content">
+                            <h2>strip功能</h2>
 <p>代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积，对控制安装包大小很有好处。</p>
 <p>开启strip只须下面几步</p>
 <ol>
@@ -163,31 +184,39 @@
 </li>
 </ol>
 <h2>阻止GDB调试</h2>
-<div class="highlight"><pre><span class="c">#import &lt;dlfcn.h&gt;  </span>
-<span class="c">#import &lt;sys/types.h&gt;</span>
+<div class="highlight"><pre><span></span><span class="c1">#import &lt;dlfcn.h&gt;  </span>
+<span class="c1">#import &lt;sys/types.h&gt;</span>
 
 <span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">ptrace_ptr_t</span><span class="p">)(</span><span class="nb">int</span> <span class="n">_request</span><span class="p">,</span> <span class="n">pid_t</span> <span class="n">_pid</span><span class="p">,</span> <span class="n">caddr_t</span> <span class="n">_addr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_data</span><span class="p">);</span>  
-<span class="c">#if !defined(PT_DENY_ATTACH)  </span>
-<span class="c">#define PT_DENY_ATTACH 31  </span>
-<span class="c">#endif  // !defined(PT_DENY_ATTACH)</span>
+<span class="c1">#if !defined(PT_DENY_ATTACH)  </span>
+<span class="c1">#define PT_DENY_ATTACH 31  </span>
+<span class="c1">#endif  // !defined(PT_DENY_ATTACH)</span>
 
 <span class="n">void</span> <span class="n">disable_gdb</span><span class="p">()</span> <span class="p">{</span>  
     <span class="n">void</span><span class="o">*</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">RTLD_GLOBAL</span> <span class="o">|</span> <span class="n">RTLD_NOW ...</span></pre></div>
-                    </section>
-                </article>
-            </li>
-            <hr/>
-            <li>
-                <article class="post-entry">
-                    <header class="entry-header">
-                        <time class="post-time" datetime="2013-08-09T15:32:00+02:00" pubdate>
-                            2013-08-09 15:32
-                        </time>
-                        <a href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark"><h1>IOS Http断点续传浅析</h1></a>
-                    </header>
-                    <section class="post-content">
-                        <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
-<div class="highlight"><pre><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="bookmark" title="Permalink to 瞬间让你的程序高上大">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">iOS Http断点续传浅析</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2013-10-03 09:32</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#ios-ref">iOS</a>
+                        </div>
+                        <div class="entry-content">
+                            <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
+<div class="highlight"><pre><span></span><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
 <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="s">@&quot;bytes=500-&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
 </pre></div>
 
@@ -201,20 +230,88 @@
 <p>针对这种情况可以做出的处理是：增加一个是否支持断点续传的标志。</p>
 <p>具体：</p>
 <p>第一次请求，开始字节为0，不用发送Range头，可以正常下载 ...</p>
-                    </section>
-                </article>
-            </li>
-            <hr/>
-        </ol>
-        <div class="paginator">
-            Page 1 / 1
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/method-hook.html" rel="bookmark" title="Permalink to Method hook">Method hook</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2013-06-03 18:25</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#ios-ref">iOS</a>
+                        </div>
+                        <div class="entry-content">
+                            <div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">IMP</span> <span class="o">*</span><span class="n">IMPPointer</span><span class="p">;</span>
+
+<span class="kt">BOOL</span> <span class="nf">class_swizzleMethodAndStore</span><span class="p">(</span><span class="kt">Class</span> <span class="k">class</span><span class="p">,</span> <span class="kt">SEL</span> <span class="n">original</span><span class="p">,</span> <span class="kt">IMP</span>     <span class="n">replacement</span><span class="p">,</span> <span class="n">IMPPointer</span> <span class="n">store</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="kt">IMP</span> <span class="n">imp</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>  
+    <span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span> <span class="n">original</span><span class="p">);</span>  
+    <span class="k">if</span> <span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="p">{</span>  
+        <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">type</span> <span class="o">=</span> <span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">method</span><span class="p">);</span>  
+        <span class="n">imp</span> <span class="o">=</span> <span class="n">class_replaceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>  
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">imp</span><span class="p">)</span> <span class="p">{</span>  
+            <span class="n">imp</span> <span class="o">=</span> <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">method</span><span class="p">);</span>  
+        <span class="p">}</span>  
+    <span class="p">}</span>  
+    <span class="k">if</span> <span class="p">(</span><span class="n">imp</span> <span class="o">&amp;&amp;</span> <span class="n">store</span><span class="p">)</span> <span class="p">{</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="n">imp</span><span class="p">;</span> <span class="p">}</span>  
+    <span class="k">return</span> <span class="p">(</span><span class="n">imp</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>  
+<span class="p">}</span>
+
+<span class="k">@implementation</span> <span class="bp">NSObject</span> <span class="nl">(FRRuntimeAdditions ...</span></pre></div>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/method-hook.html" rel="bookmark" title="Permalink to Method hook">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                        </ul><!-- /#posts-list -->
+                        </div><!-- /#content -->
+            </div>
+            <div class="col-md-2 fadeInRight" id="sidebar_right">
+            </div>
         </div>
-<footer id="site-info">
-    <p>
-        Proudly powered by <a href="http://getpelican.com/">Pelican</a> and <a href="http://python.org/">Python</a>. Theme by<a href="https://github.com/hdra/pelican-cait">hndr</a>.
-    </p>
-</footer>    </div>
-        </div>
-        <script src="/theme/js/main.js"></script>
-    </body>
+    </div>
+
+    <!-- BAIDU_TONGJI -->
+
+    <!-- footer -->
+    <div id="push"></div>
+<footer class="footer">
+<div id="footer">
+    <ul class="footer-content">
+        <li class="swain-power"><i class="fa fa-map-signs"></i> Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+</div>
+</footer>    
+<script type="text/javascript">
+    function setAnimate(i){
+            var f = document.getElementsByClassName("animate")[0];
+            f.style.animationDelay = (0+i/2).toString()+"s";
+            f.classList.remove("animate");
+        };
+    var n = document.getElementsByClassName("animate").length;
+    function initAnimate(){
+        var i=0;
+        while(i < n)
+        {
+            setAnimate(i);
+            i++;
+        };
+    };
+    window.onload = initAnimate();
+</script>
+</body>
 </html>
