@@ -34,15 +34,15 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars fa-lg fa-inverse"></i>
                 </button>
-                <!-- <a class="navbar-brand" href="/">EricLonger</a> -->
+                <a class="navbar-brand" href="/">万象天青</a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ><a href="/">Home</a></li>
-                    <li ><a href="/categories.html">Categories</a></li>
-                    <li ><a href="/tags.html">Tags</a></li>
-                    <li ><a href="/archives.html">Archives</a></li>
+                    <li ><a href="/">首页</a></li>
+                    <!-- <li ><a href="/categories.html">分类</a></li> -->
+                    <li ><a href="/tags.html">标签</a></li>
+                    <li ><a href="/archives.html">归档</a></li>
                 </ul>
                 <!-- 
                 <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
@@ -65,9 +65,16 @@
             <a href="/pythonbi-ji.html" rel="bookmark"
                title="Permalink to Python笔记">Python笔记</a></h1>
         </header>
+        <div class="tagged">
+                <i class="fa fa-calendar"></i><time class="article-li-time">2013-12-22 23:53</time>
+                <i class="fa fa-folder-open fa-lg"></i>
+                <a class="tagged" href="/categories.html#python-ref">Python</a>
+                <i class="fa fa-tags"></i>
+                    <a class="tagged" href="/tags.html#python-ref">Python</a>
+        </div>
         <hr/>
         <div class="entry-content">
-          <h5>1.定义私有变量，在变量前面加2个下划线'__'</h5>
+          <h5>1.定义私有变量，在变量前面加2个下划线&#8217;__&#8217;</h5>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">people:</span>    
     <span class="n">__name</span> = <span class="s">&#39;jack&#39;</span>
     <span class="n">__age</span> = <span class="mi">12</span>
@@ -84,7 +91,7 @@
 </thead>
 <tbody>
 <tr>
-<td>__init__(self,...)</td>
+<td>__init__(self,&#8230;)</td>
 <td>初始化对象，在创建新对象时调用</td>
 </tr>
 <tr>
@@ -154,27 +161,27 @@
 </tbody>
 </table>
 <h5>3.利用__new__生成单例</h5>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">Singleton</span>(<span class="n">object</span>):
-    <span class="n">__instance</span> = <span class="n">None</span>                       <span class="c c-Singleline"># 定义实例</span>
+<div class="highlight"><pre><span></span><span class="nv">class</span> <span class="nv">Singleton</span><span class="ss">(</span><span class="nv">object</span><span class="ss">)</span>:
+    <span class="nv">__instance</span> <span class="o">=</span> <span class="nv">None</span>                       # 定义实例
 
-    <span class="n">def</span> <span class="n">__new__</span>(<span class="n">cls</span>, *<span class="n">args</span>, **<span class="n">kwd</span>):         <span class="c c-Singleline"># 在__init__之前调用</span>
-        <span class="k">if</span> <span class="n">Singleton</span>.<span class="n">__instance</span> <span class="k">is</span> <span class="n">None:</span>    <span class="c c-Singleline"># 生成唯一实例</span>
-            <span class="n">Singleton</span>.<span class="n">__instance</span> = <span class="n">object</span>.<span class="n">__new__</span>(<span class="n">cls</span>, *<span class="n">args</span>, **<span class="n">kwd</span>)
-        <span class="k">return</span> <span class="n">Singleton</span>.<span class="n">__instance</span>
+    <span class="nv">def</span> <span class="nv">__new__</span><span class="ss">(</span><span class="nv">cls</span>, <span class="o">*</span><span class="nv">args</span>, <span class="o">**</span><span class="nv">kwd</span><span class="ss">)</span>:         # 在<span class="nv">__init__</span>之前调用
+        <span class="k">if</span> <span class="nv">Singleton</span>.<span class="nv">__instance</span> <span class="nv">is</span> <span class="nv">None</span>:    # 生成唯一实例
+            <span class="nv">Singleton</span>.<span class="nv">__instance</span> <span class="o">=</span> <span class="nv">object</span>.<span class="nv">__new__</span><span class="ss">(</span><span class="nv">cls</span>, <span class="o">*</span><span class="nv">args</span>, <span class="o">**</span><span class="nv">kwd</span><span class="ss">)</span>
+        <span class="k">return</span> <span class="nv">Singleton</span>.<span class="nv">__instance</span>
 </pre></div>
 
 
 <h5>4.方法继承</h5>
-<div class="highlight"><pre><span></span># 方法继承，去掉return重写方法
-def age(self):
-    print 10
-    return super(Men, self).age()
+<div class="highlight"><pre><span></span># 方法继承，去掉<span class="nv">return</span>重写方法
+<span class="nv">def</span> <span class="nv">age</span><span class="ss">(</span><span class="nv">self</span><span class="ss">)</span>:
+    <span class="nv">print</span> <span class="mi">10</span>
+    <span class="k">return</span> <span class="nv">super</span><span class="ss">(</span><span class="nv">Men</span>, <span class="nv">self</span><span class="ss">)</span>.<span class="nv">age</span><span class="ss">()</span>
 </pre></div>
 
 
 <h5>5.将对象属性转为字典</h5>
-<div class="highlight"><pre><span></span># 将对象属性转为dict
-print men.__dict__
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="err">将对象属性转为</span><span class="n">dict</span>
+<span class="n">print</span> <span class="n">men</span><span class="p">.</span><span class="n">__dict__</span>
 </pre></div>
 
 
@@ -187,70 +194,70 @@ print men.__dict__
 
 
 <h5>7.property属性</h5>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">Men</span>(<span class="n">object</span>):
+<div class="highlight"><pre><span></span><span class="nv">class</span> <span class="nv">Men</span><span class="ss">(</span><span class="nv">object</span><span class="ss">)</span>:
 
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>):
-        <span class="n">super</span>(<span class="n">Person</span>, <span class="k">self</span>).<span class="n">__init__</span>()
-        <span class="k">self</span>.<span class="n">__value</span> = <span class="mi">0</span>
+    <span class="nv">def</span> <span class="nv">__init__</span><span class="ss">(</span><span class="nv">self</span><span class="ss">)</span>:
+        <span class="nv">super</span><span class="ss">(</span><span class="nv">Person</span>, <span class="nv">self</span><span class="ss">)</span>.<span class="nv">__init__</span><span class="ss">()</span>
+        <span class="nv">self</span>.<span class="nv">__value</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c c-Singleline"># 用property特性访问私有变量</span>
-    <span class="nv">@property</span>
-    <span class="n">def</span> <span class="nb">value</span>(<span class="k">self</span>):
-        <span class="k">return</span> <span class="k">self</span>.<span class="n">__value</span>
+    # 用<span class="nv">property</span>特性访问私有变量
+    @<span class="nv">property</span>
+    <span class="nv">def</span> <span class="nv">value</span><span class="ss">(</span><span class="nv">self</span><span class="ss">)</span>:
+        <span class="k">return</span> <span class="nv">self</span>.<span class="nv">__value</span>
 
-    <span class="c c-Singleline"># 用property特性设置私有变量</span>
-    <span class="nv">@value</span>.<span class="n">setter</span>
-    <span class="n">def</span> <span class="nb">value</span>(<span class="k">self</span>, <span class="nb">value</span>):
-        <span class="k">self</span>.<span class="n">__value</span> = <span class="nb">value</span>
+    # 用<span class="nv">property</span>特性设置私有变量
+    @<span class="nv">value</span>.<span class="nv">setter</span>
+    <span class="nv">def</span> <span class="nv">value</span><span class="ss">(</span><span class="nv">self</span>, <span class="nv">value</span><span class="ss">)</span>:
+        <span class="nv">self</span>.<span class="nv">__value</span> <span class="o">=</span> <span class="nv">value</span>
 </pre></div>
 
 
-<h5>8.__getattr__(self, name)方法</h5>
+<h5>8.__getattr__(self,&nbsp;name)方法</h5>
 <p>可以用来查询限时生成的属性，name为属性名</p>
 <ul>
 <li>如果在__init__方法初始化了某个属性，是不进入此方法的</li>
 <li>但如果重写__getattr__方法（不继承super），又进入此方法了,如果是继承__getattr__，就不进</li>
-<li>此方法不能继承:AttributeError: 'super' object has no attribute '__getattr__'</li>
+<li>此方法不能继承:AttributeError: &#8216;super&#8217; object has no attribute&nbsp;&#8216;__getattr__&#8217;</li>
 </ul>
-<p>--</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">Men</span>(<span class="n">object</span>):
+<p>&#8212;</p>
+<div class="highlight"><pre><span></span><span class="nv">class</span> <span class="nv">Men</span><span class="ss">(</span><span class="nv">object</span><span class="ss">)</span>:
 
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>):
-        <span class="n">super</span>(<span class="n">Men</span>, <span class="k">self</span>).<span class="n">__init__</span>()
-        <span class="k">self</span>.<span class="n">age</span> = <span class="mi">21</span>
+    <span class="nv">def</span> <span class="nv">__init__</span><span class="ss">(</span><span class="nv">self</span><span class="ss">)</span>:
+        <span class="nv">super</span><span class="ss">(</span><span class="nv">Men</span>, <span class="nv">self</span><span class="ss">)</span>.<span class="nv">__init__</span><span class="ss">()</span>
+        <span class="nv">self</span>.<span class="nv">age</span> <span class="o">=</span> <span class="mi">21</span>
 
-    <span class="n">def</span> <span class="n">__getattr__</span>(<span class="k">self</span>, <span class="nb">name</span>):
-        <span class="k">if</span> (<span class="nb">name</span> == <span class="s">&#39;girls&#39;</span>):
-            <span class="nb">print</span> <span class="s">&#39;in __getattr__ girls&#39;</span>
+    <span class="nv">def</span> <span class="nv">__getattr__</span><span class="ss">(</span><span class="nv">self</span>, <span class="nv">name</span><span class="ss">)</span>:
+        <span class="k">if</span> <span class="ss">(</span><span class="nv">name</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="s">girls</span><span class="s1">&#39;</span><span class="ss">)</span>:
+            <span class="nv">print</span> <span class="s1">&#39;</span><span class="s">in __getattr__ girls</span><span class="s1">&#39;</span>
             <span class="k">return</span> <span class="mi">33</span>
-        <span class="n">elif</span> (<span class="nb">name</span> == <span class="s">&#39;age&#39;</span>):
-            <span class="nb">print</span> <span class="s">&#39;in __getattr__ age&#39;</span>, <span class="k">self</span>.<span class="n">age</span>
+        <span class="nv">elif</span> <span class="ss">(</span><span class="nv">name</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="s">age</span><span class="s1">&#39;</span><span class="ss">)</span>:
+            <span class="nv">print</span> <span class="s1">&#39;</span><span class="s">in __getattr__ age</span><span class="s1">&#39;</span>, <span class="nv">self</span>.<span class="nv">age</span>
             <span class="k">return</span> <span class="mi">55</span>
 
-    <span class="n">men</span> = <span class="n">Men</span>()  
-    <span class="nb">print</span> <span class="n">men</span>.<span class="n">age</span>       <span class="c c-Singleline">#print 21,age已在__init__声明,不进入__getattr__</span>
-    <span class="nb">print</span> <span class="n">men</span>.<span class="n">girls</span>     <span class="c c-Singleline">#print 33,进入__getattr__</span>
+    <span class="nv">men</span> <span class="o">=</span> <span class="nv">Men</span><span class="ss">()</span>  
+    <span class="nv">print</span> <span class="nv">men</span>.<span class="nv">age</span>       #<span class="nv">print</span> <span class="mi">21</span>,<span class="nv">age</span>已在<span class="nv">__init__</span>声明,不进入<span class="nv">__getattr__</span>
+    <span class="nv">print</span> <span class="nv">men</span>.<span class="nv">girls</span>     #<span class="nv">print</span> <span class="mi">33</span>,进入<span class="nv">__getattr__</span>
 </pre></div>
 
 
 <h5>9.packing</h5>
 <p><strong>*args:接受单值参数，以元组形式保存</strong></p>
 <p><strong>**kwds:接受赋值参数，以字典形式保存</strong></p>
-<div class="highlight"><pre><span></span>def func(*name):
-    print type(name)
-    print name
+<div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">print</span> <span class="k">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">print</span> <span class="n">name</span>
 
-func(1, 2, 3, 4, 5)         #(1, 2, 3, 4, 5)
+<span class="n">func</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>         <span class="o">#</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 
-func(&#39;sf&#39;, &#39;sf&#39;, &#39;error&#39;)   #(&#39;sf&#39;, &#39;sf&#39;, &#39;error&#39;)
+<span class="n">func</span><span class="p">(</span><span class="s1">&#39;sf&#39;</span><span class="p">,</span> <span class="s1">&#39;sf&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>   <span class="o">#</span><span class="p">(</span><span class="s1">&#39;sf&#39;</span><span class="p">,</span> <span class="s1">&#39;sf&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
 
-def func1(**dict):
-    print type(dict)
-    print dict
+<span class="n">def</span> <span class="n">func1</span><span class="p">(</span><span class="o">**</span><span class="n">dict</span><span class="p">):</span>
+    <span class="n">print</span> <span class="k">type</span><span class="p">(</span><span class="n">dict</span><span class="p">)</span>
+    <span class="n">print</span> <span class="n">dict</span>
 
-func1(a=1, b=2, c=3)
+<span class="n">func1</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="k">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-func1(c=2, d=5, xx=&#39;33&#39;, ee=&#39;44&#39;, aa=&#39;2&#39;)
+<span class="n">func1</span><span class="p">(</span><span class="k">c</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">xx</span><span class="o">=</span><span class="s1">&#39;33&#39;</span><span class="p">,</span> <span class="n">ee</span><span class="o">=</span><span class="s1">&#39;44&#39;</span><span class="p">,</span> <span class="n">aa</span><span class="o">=</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
 </pre></div>
         </div><!-- /.entry-content -->
     </div>
@@ -263,31 +270,7 @@ func1(c=2, d=5, xx=&#39;33&#39;, ee=&#39;44&#39;, aa=&#39;2&#39;)
 </section>
             </div>
             <div class="col-md-2 fadeInRight" id="sidebar_right">
-<div class="panel panel-primary">
-  <div class="panel-heading">Article <i class="fa fa-info-circle"></i>nfo</div>
-    <div class="panel-body">
-      <div class="published">
-                <h5>Published</h5>
-                <p><time>2013-12-22 23:53</time></p>
-      </div>
-      <div class="category">
-              <h5>Category</h5>
-              <p><a class="btn btn-default btn-xs" type="button" href="/categories.html#python-ref">Python</a></p>
-      </div>
-      <div class="tags">
-            <h5>Tags</h5>
-            <ul class="list-inline list-of-tags tags-in-article">
-                <li><a class="btn btn-default btn-xs" type="button" href="/tags.html#python-ref">Python
-                    <span class="badge">1</span>
-</a></li>
-            </ul>
-      </div>
-      <address class="vcard author">
-                By       <a class="url fn" href="/author/eric-long.html">Eric Long</a>
-      </address>
-
-    </div>
-</div>            </div>
+            </div>
         </div>
     </div>
 
@@ -298,7 +281,11 @@ func1(c=2, d=5, xx=&#39;33&#39;, ee=&#39;44&#39;, aa=&#39;2&#39;)
 <footer class="footer">
 <div id="footer">
     <ul class="footer-content">
-        <li class="swain-power"><i class="fa fa-map-signs"></i> Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        <li class="swain-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+    <ul class="footer-content">
+        <li class="swain-power"><a href="http://www.beian.miit.gov.cn/">桂ICP备16000282号-2</a>
         </li>
     </ul>
 </div>

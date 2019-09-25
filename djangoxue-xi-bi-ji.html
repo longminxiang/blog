@@ -34,15 +34,15 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars fa-lg fa-inverse"></i>
                 </button>
-                <!-- <a class="navbar-brand" href="/">EricLonger</a> -->
+                <a class="navbar-brand" href="/">万象天青</a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ><a href="/">Home</a></li>
-                    <li ><a href="/categories.html">Categories</a></li>
-                    <li ><a href="/tags.html">Tags</a></li>
-                    <li ><a href="/archives.html">Archives</a></li>
+                    <li ><a href="/">首页</a></li>
+                    <!-- <li ><a href="/categories.html">分类</a></li> -->
+                    <li ><a href="/tags.html">标签</a></li>
+                    <li ><a href="/archives.html">归档</a></li>
                 </ul>
                 <!-- 
                 <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
@@ -65,29 +65,39 @@
             <a href="/djangoxue-xi-bi-ji.html" rel="bookmark"
                title="Permalink to Django学习笔记">Django学习笔记</a></h1>
         </header>
+        <div class="tagged">
+                <i class="fa fa-calendar"></i><time class="article-li-time">2013-12-20 21:05</time>
+                <i class="fa fa-folder-open fa-lg"></i>
+                <a class="tagged" href="/categories.html#python-ref">Python</a>
+                <i class="fa fa-tags"></i>
+                    <a class="tagged" href="/tags.html#django-ref">Django</a>
+        </div>
         <hr/>
         <div class="entry-content">
           <h2>数据库建表</h2>
-<ul>
-<li>
 <p>检查model是否有效</p>
-<p><code>python manage.py validate</code>
-* 生成create table语句</p>
-<p><code>python manage.py sqlall books</code></p>
-</li>
-<li>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">validate</span>
+</pre></div>
+
+
+<p>生成create&nbsp;table语句</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">sqlall</span> <span class="n">books</span>
+</pre></div>
+
+
 <p>同步数据库命令</p>
-<p><code>python manage.py syncdb</code></p>
-</li>
-</ul>
-<h2>Django Model的设计</h2>
-<p>如何设计出好的django model可能是最难也是最复杂的一个话题了, 在此, 我们看看一些基本的技巧吧:</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">syncdb</span>
+</pre></div>
+
+
+<h2>Django&nbsp;Model的设计</h2>
+<p>如何设计出好的django model可能是最难也是最复杂的一个话题了, 在此,&nbsp;我们看看一些基本的技巧吧:</p>
 <h3>规范化</h3>
-<p>我们首先建议了解数据库规范化(database normalization). 如果你还不清楚这是什么, 那么, 我们强烈建议你先阅读一下相关的书籍, 或搜索"关系 型数据库设计"或"数据库规范化". 在创建django model之前, 应当首先保证设计的数据库是规范化的.</p>
+<p>我们首先建议了解数据库规范化(database normalization). 如果你还不清楚这是什么, 那么, 我们强烈建议你先阅读一下相关的书籍, 或搜索&#8221;关系 型数据库设计&#8221;或&#8221;数据库规范化&#8221;. 在创建django model之前,&nbsp;应当首先保证设计的数据库是规范化的.</p>
 <h3>cache</h3>
-<p>正确的使用cache能帮助我们提高数据库的性能. 详细的信息, 我们会在今后的文章中作进一步介绍.</p>
+<p>正确的使用cache能帮助我们提高数据库的性能. 详细的信息,&nbsp;我们会在今后的文章中作进一步介绍.</p>
 <h3>何时使用null和blank</h3>
-<p>当定义model field时, 我们可以设置null=True和blank=True (默认都是False), 知道何时设置null和blank对于开发人员也是十分重要的, 在下 面的表格中, 我们一一列举了如何使用这两个选项:</p>
+<p>当定义model field时, 我们可以设置null=True和blank=True (默认都是False), 知道何时设置null和blank对于开发人员也是十分重要的, 在下 面的表格中,&nbsp;我们一一列举了如何使用这两个选项:</p>
 <table>
 <thead>
 <tr>
@@ -140,12 +150,12 @@
 </tbody>
 </table>
 <h3>什么时候使用BinaryField</h3>
-<p>在django 1.6中, 新增了BinaryField, 用于储存二进制数据(binary data或 bytes). 对于BinaryField, 我们无法使用ORM的filters, excludes或其他SQL操作. 但在少数情况下, 我们会用到BinaryField, 例如MessagePack格式的内容, 传感器接受的原始数据和压缩数据等. 但需要注意 的是, Binary Data一般都十分庞大, 因此可能会拖慢数据库的速度. 如果发生这一现象, 我们可以将binary data储存在文件中, 然后使用FileField储 存该文件的路径信息.</p>
-<p>还有, 不要从BinaryField中直接读取文件并呈献给用户. 因为, </p>
+<p>在django 1.6中, 新增了BinaryField, 用于储存二进制数据(binary data或 bytes). 对于BinaryField, 我们无法使用ORM的filters, excludes或其他SQL操作. 但在少数情况下, 我们会用到BinaryField, 例如MessagePack格式的内容, 传感器接受的原始数据和压缩数据等. 但需要注意 的是, Binary Data一般都十分庞大, 因此可能会拖慢数据库的速度. 如果发生这一现象, 我们可以将binary data储存在文件中, 然后使用FileField储&nbsp;存该文件的路径信息.</p>
+<p>还有, 不要从BinaryField中直接读取文件并呈献给用户.&nbsp;因为, </p>
 <ol>
 <li>从数据库读写总是比从文件系统读写慢; </li>
-<li>数据库备份会变得十分庞大, 花费更多 的时间; </li>
-<li>获得文件的过程, 增加了从django到数据库的这一环节.</li>
+<li>数据库备份会变得十分庞大, 花费更多&nbsp;的时间; </li>
+<li>获得文件的过程,&nbsp;增加了从django到数据库的这一环节.</li>
 </ol>
         </div><!-- /.entry-content -->
     </div>
@@ -158,31 +168,7 @@
 </section>
             </div>
             <div class="col-md-2 fadeInRight" id="sidebar_right">
-<div class="panel panel-primary">
-  <div class="panel-heading">Article <i class="fa fa-info-circle"></i>nfo</div>
-    <div class="panel-body">
-      <div class="published">
-                <h5>Published</h5>
-                <p><time>2013-12-20 21:05</time></p>
-      </div>
-      <div class="category">
-              <h5>Category</h5>
-              <p><a class="btn btn-default btn-xs" type="button" href="/categories.html#python-ref">Python</a></p>
-      </div>
-      <div class="tags">
-            <h5>Tags</h5>
-            <ul class="list-inline list-of-tags tags-in-article">
-                <li><a class="btn btn-default btn-xs" type="button" href="/tags.html#django-ref">Django
-                    <span class="badge">2</span>
-</a></li>
-            </ul>
-      </div>
-      <address class="vcard author">
-                By       <a class="url fn" href="/author/eric-long.html">Eric Long</a>
-      </address>
-
-    </div>
-</div>            </div>
+            </div>
         </div>
     </div>
 
@@ -193,7 +179,11 @@
 <footer class="footer">
 <div id="footer">
     <ul class="footer-content">
-        <li class="swain-power"><i class="fa fa-map-signs"></i> Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        <li class="swain-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+    <ul class="footer-content">
+        <li class="swain-power"><a href="http://www.beian.miit.gov.cn/">桂ICP备16000282号-2</a>
         </li>
     </ul>
 </div>

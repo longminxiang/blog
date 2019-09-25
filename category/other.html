@@ -9,10 +9,10 @@
     <meta property="og:type" content="article" />
 
 <meta property="og:url" content="/" />
-<meta property="og:site_name" content="EricLonger" />
+<meta property="og:site_name" content="万象天青" />
 <meta property="og:article:author" content="Eric Long" />
 
-    <title>EricLonger</title>
+    <title>万象天青 - Other category</title>
 <script type="text/javascript" src="/theme/js/jquery-1.12.0.min.js"></script>
 <script type="text/javascript" src="/theme/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/theme/tipuesearch/tipuesearch_set.js"></script>
@@ -36,15 +36,15 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars fa-lg fa-inverse"></i>
                 </button>
-                <!-- <a class="navbar-brand" href="/">EricLonger</a> -->
+                <a class="navbar-brand" href="/">万象天青</a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ><a href="/">Home</a></li>
-                    <li ><a href="/categories.html">Categories</a></li>
-                    <li ><a href="/tags.html">Tags</a></li>
-                    <li ><a href="/archives.html">Archives</a></li>
+                    <li ><a href="/">首页</a></li>
+                    <!-- <li ><a href="/categories.html">分类</a></li> -->
+                    <li ><a href="/tags.html">标签</a></li>
+                    <li ><a href="/archives.html">归档</a></li>
                 </ul>
                 <!-- 
                 <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
@@ -56,29 +56,6 @@
     <div class="container-fluid" id="container">
         <div class="row-fluid">
             <div class="col-md-2 fadeInLeft" id="sidebar_left">
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-user"></i></div>
-    <div class="panel-body">
-        <img class="img-rounded" src="/theme/images/author.jpg" alt="..." width="100%" height="100%"/>
-<h3>Eric Long</h3>        <ul class="list-inline">
- 
-        <li><a href="mailto:longminxiang@163.com" title="My email Address" class="sidebar-social-info" target="_blank"><i class="fa fa-envelope-o sidebar-social-infos"></i></a></li>
-   
- 
-        <li><a href="https://github.com/longminxiang" title="My github Profile" class="sidebar-social-info" target="_blank"><i class="fa fa-github sidebar-social-infos"></i></a></li>
-   
-        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="/theme/images/qq_qrcode.jpg" width=100% height=100% />' data-title="270041040">
-        <i class="fa fa-qq sidebar-social-infos"></i></a></li>
-        <script type="text/javascript">
-            $(function () {
-                  $('#qq').popover({html : true })
-                })
-        </script>
-   
-        </ul>
-        iOS Docker Swift Python
-    </div>
-</div>
             </div>
             <div class="col-md-8" id="center_page">
     <div id="content" class="row">
@@ -100,14 +77,14 @@
 <p>再用wkhtmltopdf导出</p>
 <p>wkhtmltopdf : <a href="http://wkhtmltopdf.org/downloads.html">http://wkhtmltopdf.org/downloads.html</a></p>
 <p>使用</p>
-<div class="highlight"><pre><span></span>wkhtmltopdf xxx.html xxx.pdf
+<div class="highlight"><pre><span></span><span class="n">wkhtmltopdf</span> <span class="n">xxx</span><span class="p">.</span><span class="n">html</span> <span class="n">xxx</span><span class="p">.</span><span class="n">pdf</span>
 </pre></div>
 
 
 <h3>分页</h3>
-<p>md加入---</p>
+<p>md加入&#8212;-</p>
 <p>修改css样式，在hr中加入</p>
-<div class="highlight"><pre><span></span><span class="nt">page-break-after</span><span class="o">:</span> <span class="nt">always</span><span class="o">;</span>
+<div class="highlight"><pre><span></span><span class="nv">page</span><span class="o">-</span><span class="k">break</span><span class="o">-</span><span class="nv">after</span>: <span class="nv">always</span><span class="c1">;</span>
 </pre></div>
                         </div>
                         <div class="row">
@@ -132,12 +109,12 @@
                         <div class="entry-content">
                             <p>使用socat命令</p>
 <p>安装</p>
-<div class="highlight"><pre><span></span>brew install socat
+<div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">socat</span>
 </pre></div>
 
 
 <p>使用</p>
-<div class="highlight"><pre><span></span>socat TCP4-LISTEN:24561,fork TCP4:192.168.99.100:24561
+<div class="highlight"><pre><span></span><span class="n">socat</span> <span class="n">TCP4</span><span class="o">-</span><span class="k">LISTEN</span><span class="p">:</span><span class="mi">24561</span><span class="p">,</span><span class="n">fork</span> <span class="n">TCP4</span><span class="p">:</span><span class="mi">192</span><span class="p">.</span><span class="mi">168</span><span class="p">.</span><span class="mi">99</span><span class="p">.</span><span class="mi">100</span><span class="p">:</span><span class="mi">24561</span>
 </pre></div>
                         </div>
                         <div class="row">
@@ -151,6 +128,52 @@
                         </div><!-- /#content -->
             </div>
             <div class="col-md-2 fadeInRight" id="sidebar_right">
+<div class="panel panel-primary">
+    <div class="panel-heading"><i class="fa fa-user"></i> 我</div>
+    <div class="panel-body">
+        <img class="img-rounded" src="/theme/images/author.jpg" alt="..." width="100%" height="100%"/>
+<h3>Eric Long</h3>        <ul class="list-inline">
+ 
+        <li><a href="https://github.com/longminxiang" title="My github Profile" class="sidebar-social-info" target="_blank"><i class="fa fa-github sidebar-social-infos"></i></a></li>
+   
+        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="/theme/images/qq_qrcode.jpg" width=100% height=100% />' data-title="QQ">
+        <i class="fa fa-qq sidebar-social-infos"></i></a></li>
+        <script type="text/javascript">
+            $(function () {
+                  $('#qq').popover({html : true })
+                })
+        </script>
+   
+        <li><a id="weixin" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="/theme/images/weixin_qrcode.jpg" width=100% height=100% />' data-title="WeChat">
+        <i class="fa fa-weixin sidebar-social-infos"></i></a></li>
+        <script type="text/javascript">
+            $(function () {
+                  $('#weixin').popover({html : true })
+                })
+        </script>
+   
+        </ul>
+        iOS Docker Swift Python
+Email: longminxiang@163.com
+    </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading"><i class="fa fa-link"></i> 链接</div>
+  <div class="panel-body">
+        <ul class="list-unstyled">
+        
+        <li>
+        <a href="http://getpelican.com/" title="http://getpelican.com/" target="_blank">Pelican</a>
+        </li>
+        <li>
+        <a href="http://python.org/" title="http://python.org/" target="_blank">Python.org</a>
+        </li>
+        <li>
+        <a href="http://jinja.pocoo.org/" title="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+        </li>
+        </ul>
+  </div>
+</div>
             </div>
         </div>
     </div>
@@ -162,7 +185,11 @@
 <footer class="footer">
 <div id="footer">
     <ul class="footer-content">
-        <li class="swain-power"><i class="fa fa-map-signs"></i> Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        <li class="swain-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+    <ul class="footer-content">
+        <li class="swain-power"><a href="http://www.beian.miit.gov.cn/">桂ICP备16000282号-2</a>
         </li>
     </ul>
 </div>

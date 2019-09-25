@@ -33,11 +33,12 @@ h6,
   font-size: 12px;
 }
 hr {
-    border-top: 3px solid #eeeeee;
+    border-top: 2px solid #eeeeee;
+    margin-top: 4px;
 }
 #container {
     min-height: 100%;
-    margin-top: 64px;
+    margin-top: 84px;
     margin-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
@@ -53,33 +54,34 @@ img {
 }
 
 .entry-title > a {
-    color: #006284;
+    color: #666;
 }
 
 /*nav*/
 .navbar-toggle {
     margin: 0px 15px;
     padding: 0px 0px;
-    height: 40px;
+    height: 64px;
 
 }
 body > nav > div > div.navbar-header > button > i {
     padding: 0px 10px;
 }
 .navbar {    
-    min-height: 44px;
-    background-color: #006284;
+    min-height: 64px;
+    background-color: #113285ef;
 }
-.nav > li > a {    
-    padding: 12px 15px;
-    height: 44px;
+.nav > li > a {
+    padding: 22px 15px;
+    font-size: 14px;
+    height: 64px;
 }
 .navbar-brand {
-    height: 44px;
-    padding: 12px 15px;
+    height: 64px;
+    padding: 22px 15px;
 }
 .collapse > form {
-    height: 44px;
+    height: 64px;
     margin-top: -1px;
     margin-bottom: -1px;
     padding: 0px 10px;
@@ -194,7 +196,7 @@ div.tagged > i {
 
 /*sidebar_right*/
 .panel-primary .panel-heading {
-    background-color: #006284;
+    background-color: #113285;
 }
 
 #sidebar_right {
@@ -343,4 +345,48 @@ span.h01 {
     z-index: 10;
     right: 20px;
     bottom: 20px;
+}
+
+/* table */
+table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: transparent;
+}
+caption {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #777;
+    text-align: left;
+}
+th {
+    text-align: left;
+}
+table> thead > tr > th,
+table> tbody > tr > th,
+table> tfoot > tr > th,
+table> thead > tr > td,
+table> tbody > tr > td,
+table> tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border: 1px solid #ddd;
+}
+table> thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #ddd;
+}
+table> caption + thead > tr:first-child > th,
+table> colgroup + thead > tr:first-child > th,
+table> thead:first-child > tr:first-child > th,
+table> caption + thead > tr:first-child > td,
+table> colgroup + thead > tr:first-child > td,
+table> thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+table> tbody + tbody {
+    border-top: 2px solid #ddd;
 }
