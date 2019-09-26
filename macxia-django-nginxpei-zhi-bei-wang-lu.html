@@ -131,6 +131,11 @@
               f.classList.add("fadeInLeft");
               f.style.opacity = 1;
             };
+
+            var pre = $(".code .highlight pre");
+            if (pre.length) {
+              pre.width($("#center_page").width() - $(".highlighttable .linenos").width() - 88);
+            }
         };
     window.onload = setTocClass();
 </script>
