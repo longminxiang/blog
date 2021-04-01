@@ -63,6 +63,42 @@
                 <li class="list-group-item animate fadeInUp">
                     <article class="hentry">
                         <header>
+                            <h2 class="entry-title"><a href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">iOS&nbsp;Http断点续传浅析</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2013-10-03 09:32</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#ios-ref">iOS</a>
+                        </div>
+                        <div class="entry-content">
+                            <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
+<div class="highlight"><pre><span></span><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
+<span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="s">@&quot;bytes=500-&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
+</pre></div>
+
+
+<p>如果服务器正确响应的话，就可以顺利续传；如果服务器不支持，那就只能用其它方法了。</p>
+<p><strong>经过测试，服务器的不支持分为两种情况：</strong></p>
+<p><strong>1.完全没响应</strong></p>
+<p>如果不处理会导致文件无法下载。</p>
+<p>测试地址：http://dl_dir.qq.com/qqfile/qq/QQforMac/QQ_V2.4.2.dmg</p>
+<p>发送请求后，过一段时间直接进入了didFailWithError的delegate;错误信息为time&nbsp;out。</p>
+<p>针对这种情况可以做出的处理是：增加一个是否支持断点续传的标志。</p>
+<p>具体：</p>
+<p>第一次请求，开始字节为0，不用发送Range头，可以正常下载 …</p>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
                             <h2 class="entry-title"><a href="/method-hook.html" rel="bookmark" title="Permalink to Method hook">Method&nbsp;hook</a></h2>
                         </header>
                         <div class="tagged">

@@ -63,6 +63,47 @@
                 <li class="list-group-item animate fadeInUp">
                     <article class="hentry">
                         <header>
+                            <h2 class="entry-title"><a href="/postgresshu-ju-ku-dockershi-jian.html" rel="bookmark" title="Permalink to Postgres数据库Docker实践">Postgres数据库Docker实践</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2021-04-01 09:30</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#docker-ref">Docker</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#docker-postgres-ref">Docker Postgres</a>
+                        </div>
+                        <div class="entry-content">
+                            <h2>0x01解决时区问题</h2>
+<p>添加tzdata可以解决时间问题</p>
+<p>Dockfile:</p>
+<div class="highlight"><pre><span></span><span class="k">FROM</span> <span class="n">postgres</span><span class="p">:</span><span class="mi">12</span><span class="p">.</span><span class="mi">3</span><span class="o">-</span><span class="n">alpine</span>
+
+<span class="n">RUN</span> <span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">&#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&#39;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">apk</span><span class="o">/</span><span class="n">repositories</span> <span class="o">&amp;&amp;</span><span class="err">\</span>
+<span class="n">apk</span> <span class="k">add</span> <span class="c1">--no-cache tzdata &amp;&amp;\</span>
+<span class="n">cp</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">share</span><span class="o">/</span><span class="n">zoneinfo</span><span class="o">/</span><span class="n">Asia</span><span class="o">/</span><span class="n">Shanghai</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="k">localtime</span>
+</pre></div>
+
+
+<h2>0x02备份</h2>
+<p>postgres镜像装有crond，可以用crond直接备份</p>
+<p>由于备份的库和时间有可能是随时修改的，所以可以重写command，在运行时设置好</p>
+<p>注意用户问题：crond只能用root用户运行，postgres只能用postgres用户运行</p>
+<p>docker-compose.yml：</p>
+<div class="highlight"><pre><span></span><span class="k">version</span><span class="p">:</span> <span class="s1">&#39;3.6&#39;</span>
+
+<span class="n">services</span><span class="p">:</span>
+    <span class="n">pg …</span></pre></div>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/postgresshu-ju-ku-dockershi-jian.html" rel="bookmark" title="Permalink to Postgres数据库Docker实践">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
                             <h2 class="entry-title"><a href="/xiao-mi-dian-shi-mac-smb.html" rel="bookmark" title="Permalink to 小米电视、Mac、SMB">小米电视、Mac、<span class="caps">SMB</span></a></h2>
                         </header>
                         <div class="tagged">
@@ -443,42 +484,6 @@
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/macxia-kai-fang-ju-yu-wang-duan-kou.html" rel="bookmark" title="Permalink to MAC下开放局域网端口">Read more</a>
-                        </div>
-                        </div>
-                        <!-- /.entry-content -->
-                    </article>
-                </li>
-                <li class="list-group-item animate fadeInUp">
-                    <article class="hentry">
-                        <header>
-                            <h2 class="entry-title"><a href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">iOS&nbsp;Http断点续传浅析</a></h2>
-                        </header>
-                        <div class="tagged">
-                                <i class="fa fa-calendar"></i><time class="article-li-time">2013-10-03 09:32</time>
-                                <i class="fa fa-folder-open fa-lg"></i>
-                                <a class="tagged" href="/categories.html#ios-ref">iOS</a>
-                                <i class="fa fa-tags"></i>
-                                    <a class="tagged" href="/tags.html#ios-ref">iOS</a>
-                        </div>
-                        <div class="entry-content">
-                            <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
-<div class="highlight"><pre><span></span><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
-<span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="s">@&quot;bytes=500-&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
-</pre></div>
-
-
-<p>如果服务器正确响应的话，就可以顺利续传；如果服务器不支持，那就只能用其它方法了。</p>
-<p><strong>经过测试，服务器的不支持分为两种情况：</strong></p>
-<p><strong>1.完全没响应</strong></p>
-<p>如果不处理会导致文件无法下载。</p>
-<p>测试地址：http://dl_dir.qq.com/qqfile/qq/QQforMac/QQ_V2.4.2.dmg</p>
-<p>发送请求后，过一段时间直接进入了didFailWithError的delegate;错误信息为time&nbsp;out。</p>
-<p>针对这种情况可以做出的处理是：增加一个是否支持断点续传的标志。</p>
-<p>具体：</p>
-<p>第一次请求，开始字节为0，不用发送Range头，可以正常下载 …</p>
-                        </div>
-                        <div class="row">
-                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">Read more</a>
                         </div>
                         </div>
                         <!-- /.entry-content -->
