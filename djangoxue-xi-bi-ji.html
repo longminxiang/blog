@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-width, initial-scale=1">
+    <meta name="author" content="Eric Long" />
+    <meta name="copyright" content="Eric Long" />
+    <meta property="og:type" content="article" />
+
+<meta name="keywords" content="Django, Python, " />
+
+    <title>Django学习笔记</title>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/animate.css" media="screen">
+    <link rel="icon" href="https://static.mixii.net:9001/blog/static/images/favicon.ico" type="image/x-icon" />
+    
+    <!-- GOOGLE_ANALYTICS -->
+</head>
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars fa-lg fa-inverse"></i>
+                </button>
+                <a class="navbar-brand" href="/">万象天青</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ><a href="/">首页</a></li>
+                    <!-- <li ><a href="/categories.html">分类</a></li> -->
+                    <li ><a href="/tags.html">标签</a></li>
+                    <li ><a href="/archives.html">归档</a></li>
+                </ul>
+                <!-- 
+                <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
+                -->
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+    <div class="container-fluid" id="container">
+        <div class="row-fluid">
+<div class="col-md-2 hidden-xs hidden-sm" id="sidebar_left">
+</div>
+            <div class="col-md-8" id="center_page">
+<section id="content" class="body fadeInUp">
+  <article>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <header>
+          <h1 class="entry-title">
+            <a href="/djangoxue-xi-bi-ji.html" rel="bookmark"
+               title="Permalink to Django学习笔记">Django学习笔记</a></h1>
+        </header>
+        <div class="tagged">
+                <i class="fa fa-calendar"></i><time class="article-li-time">2013-12-20 21:05</time>
+                <i class="fa fa-folder-open fa-lg"></i>
+                <a class="tagged" href="/categories.html#python-ref">Python</a>
+                <i class="fa fa-tags"></i>
+                    <a class="tagged" href="/tags.html#django-ref">Django</a>
+        </div>
+        <hr/>
+        <div class="entry-content">
+          <h2>数据库建表</h2>
+<p>检查model是否有效</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">validate</span>
+</pre></div>
+
+
+<p>生成create&nbsp;table语句</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">sqlall</span> <span class="n">books</span>
+</pre></div>
+
+
+<p>同步数据库命令</p>
+<div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">syncdb</span>
+</pre></div>
+
+
+<h2>Django&nbsp;Model的设计</h2>
+<p>如何设计出好的django model可能是最难也是最复杂的一个话题, 在此,&nbsp;我们看看一些基本的技巧:</p>
+<h3>规范化</h3>
+<p>我们首先建议了解数据库规范化(database normalization). 如果你还不清楚这是什么, 那么, 我们强烈建议你先阅读一下相关的书籍, 或搜索&#8221;关系 型数据库设计&#8221;或&#8221;数据库规范化&#8221;. 在创建django model之前,&nbsp;应当首先保证设计的数据库是规范化的.</p>
+<h3>cache</h3>
+<p>正确的使用cache能帮助我们提高数据库的性能. 详细的信息,&nbsp;我们会在今后的文章中作进一步介绍.</p>
+<h3>何时使用null和blank</h3>
+<p>当定义model field时, 我们可以设置null=True和blank=True (默认都是False), 知道何时设置null和blank对于开发人员也是十分重要的, 在下 面的表格中,&nbsp;我们一一列举了如何使用这两个选项:</p>
+<table>
+<thead>
+<tr>
+<th>Field 类型</th>
+<th>设置null=True</th>
+<th>设置blank=True</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CharField,<br> TextField,<br> SlugField, <br> EmailField, <br>CommaSeparatedIntegerField等</td>
+<td>不要设置<br>django规定储存空字符串来代表空值, 当从数据库中读取NULL或空值时都为空字符串</td>
+<td>可以设置<br>设置后允许接受widget中为空值(即不填写), 储存到数据库时空值变为空字符串</td>
+</tr>
+<tr>
+<td>FileField, <br>ImageField</td>
+<td>不要设置<br>django实际储存的是路径的字符串, 因此同上</td>
+<td>可以设置<br>同上</td>
+</tr>
+<tr>
+<td>BooleanField</td>
+<td>不要设置<br>因为有NullBooleanField代替</td>
+<td>不要设置</td>
+</tr>
+<tr>
+<td>IntegerField, <br>FloatField, <br>DecimalField等</td>
+<td>可以设置<br>如果你希望在数据库中能储存NULL</td>
+<td>可以设置<br>设置后允许接受widget中为空值(即不填写), 设置为True时必须同时设置null=True</td>
+</tr>
+<tr>
+<td>DateTimeField, <br>DateField, <br>TimeField等</td>
+<td>可以设置<br>如果你希望在数据库中能储存NULL</td>
+<td>可以设置<br>设置后允许接受widget中为空值(即不填写), 设置为True时必须同时设置null=True</td>
+</tr>
+<tr>
+<td>ForeignKey, <br>ManyToManyField, <br>OneToOneField</td>
+<td>可以设置<br>如果你希望在数据库中能储存NULL</td>
+<td>可以设置<br>设置后允许接受widget中为空值(即不填写)</td>
+</tr>
+<tr>
+<td>GenericIPAddressField</td>
+<td>可以设置<br>如果你希望在数据库中能储存NULL</td>
+<td>可以设置<br>设置后允许接受widget中为空值(即不填写)</td>
+</tr>
+<tr>
+<td>IPAddressField</td>
+<td>不推荐设置<br>用GenericIPAddressField代替</td>
+<td>不推荐设置<br>用GenericIPAddressField代替</td>
+</tr>
+</tbody>
+</table>
+<h3>什么时候使用BinaryField</h3>
+<p>在django 1.6中, 新增了BinaryField, 用于储存二进制数据(binary data或 bytes). 对于BinaryField, 我们无法使用ORM的filters, excludes或其他SQL操作. 但在少数情况下, 我们会用到BinaryField, 例如MessagePack格式的内容, 传感器接受的原始数据和压缩数据等. 但需要注意 的是, Binary Data一般都十分庞大, 因此可能会拖慢数据库的速度. 如果发生这一现象, 我们可以将binary data储存在文件中, 然后使用FileField储&nbsp;存该文件的路径信息.</p>
+<p>还有, 不要从BinaryField中直接读取文件并呈献给用户.&nbsp;因为, </p>
+<ol>
+<li>从数据库读写总是比从文件系统读写慢; </li>
+<li>数据库备份会变得十分庞大, 花费更多&nbsp;的时间; </li>
+<li>获得文件的过程,&nbsp;增加了从django到数据库的这一环节.</li>
+</ol>
+        </div><!-- /.entry-content -->
+    </div>
+  </div>      
+
+
+
+
+  </article>
+</section>
+            </div>
+            <div class="col-md-2 fadeInRight" id="sidebar_right">
+            </div>
+        </div>
+    </div>
+
+    <!-- BAIDU_TONGJI -->
+
+    <!-- footer -->
+    <div id="push"></div>
+<footer class="footer">
+<div id="footer">
+    <ul class="footer-content">
+        <li class="swain-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+    <ul class="footer-content">
+        <li class="swain-power"><a href="https://beian.miit.gov.cn">桂ICP备16000282号-2</a>
+        </li>
+    </ul>
+</div>
+</footer>    
+<script type="text/javascript">
+    function setTocClass(){
+            var f = document.getElementById("toc");
+            if (f != null) {
+              f.classList.add("art-toc");
+              f.classList.add("fadeInLeft");
+              f.style.opacity = 1;
+            };
+
+            var pre = $(".code .highlight pre");
+            if (pre.length) {
+              pre.width($("#center_page").width() - $(".highlighttable .linenos").width() - 88);
+            }
+        };
+    window.onload = setTocClass();
+</script>
+</body>
+</html>

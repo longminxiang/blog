@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-width, initial-scale=1">
+    <meta name="author" content="Eric Long" />
+    <meta name="copyright" content="Eric Long" />
+    <meta property="og:type" content="article" />
+
+<meta property="og:url" content="/" />
+<meta property="og:site_name" content="万象天青" />
+<meta property="og:article:author" content="Eric Long" />
+
+    <title>万象天青 - Python tag</title>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/animate.css" media="screen">
+    <link rel="icon" href="https://static.mixii.net:9001/blog/static/images/favicon.ico" type="image/x-icon" />
+    
+    <!-- GOOGLE_ANALYTICS -->
+</head>
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars fa-lg fa-inverse"></i>
+                </button>
+                <a class="navbar-brand" href="/">万象天青</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ><a href="/">首页</a></li>
+                    <!-- <li ><a href="/categories.html">分类</a></li> -->
+                    <li ><a href="/tags.html">标签</a></li>
+                    <li ><a href="/archives.html">归档</a></li>
+                </ul>
+                <!-- 
+                <form class="navbar-search navbar-form navbar-right" action="/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query form-control" placeholder="Search" name="q" id="tipue_search_input"></form>
+                -->
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+    <div class="container-fluid" id="container">
+        <div class="row-fluid">
+            <div class="col-md-2 fadeInLeft" id="sidebar_left">
+            </div>
+            <div class="col-md-8" id="center_page">
+    <div id="content" class="row">
+        <ul class="list-group list-unstyled" id="posts-list">
+                <li class="list-group-item animate fadeInUp">
+                    <article class="hentry">
+                        <header>
+                            <h2 class="entry-title"><a href="/pythonbi-ji.html" rel="bookmark" title="Permalink to Python笔记">Python笔记</a></h2>
+                        </header>
+                        <div class="tagged">
+                                <i class="fa fa-calendar"></i><time class="article-li-time">2013-12-22 23:53</time>
+                                <i class="fa fa-folder-open fa-lg"></i>
+                                <a class="tagged" href="/categories.html#python-ref">Python</a>
+                                <i class="fa fa-tags"></i>
+                                    <a class="tagged" href="/tags.html#python-ref">Python</a>
+                        </div>
+                        <div class="entry-content">
+                            <h5>1.定义私有变量，在变量前面加2个下划线&#8217;__&#8217;</h5>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">people:</span>    
+    <span class="n">__name</span> = <span class="s">&#39;jack&#39;</span>
+    <span class="n">__age</span> = <span class="mi">12</span>
+</pre></div>
+
+
+<h5>2.类常用的内置方法</h5>
+<table>
+<thead>
+<tr>
+<th>内置方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__init__(self,&#8230;)</td>
+<td>初始化对象，在创建新对象时调用</td>
+</tr>
+<tr>
+<td>__del__(self)</td>
+<td>释放对象，在对象被删除之前调用</td>
+</tr>
+<tr>
+<td>__new__(cls,*args,**kwd)</td>
+<td>实例的生成操作</td>
+</tr>
+<tr>
+<td>__str__(self)</td>
+<td>在使用print语句时被调用</td>
+</tr>
+<tr>
+<td>__getitem__(self,key)</td>
+<td>获取序列的索引key对应的值，等价于seq[key]</td>
+</tr>
+<tr>
+<td>__len__(self)</td>
+<td>在调用内联函数len( )时被调用</td>
+</tr>
+<tr>
+<td>__cmp__(stc,dst)</td>
+<td>比较两个对象src和dst</td>
+</tr>
+<tr>
+<td>__getattr__(s,name)</td>
+<td>获取属性的值</td>
+</tr>
+<tr>
+<td>__setattr__(s …</td></tr></tbody></table>
+                        </div>
+                        <div class="row">
+                        <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/pythonbi-ji.html" rel="bookmark" title="Permalink to Python笔记">Read more</a>
+                        </div>
+                        </div>
+                        <!-- /.entry-content -->
+                    </article>
+                </li>
+            </div>
+            <div class="col-md-2 fadeInRight" id="sidebar_right">
+<div class="panel panel-primary">
+    <div class="panel-heading"><i class="fa fa-user"></i> 我</div>
+    <div class="panel-body">
+        <img class="img-rounded" src="https://static.mixii.net:9001/blog/static/images/avatar.jpg" alt="..." width="100%" height="100%"/>
+<h3>Eric Long</h3>        <ul class="list-inline">
+ 
+        <li><a href="https://github.com/longminxiang" title="My github Profile" class="sidebar-social-info" target="_blank"><i class="fa fa-github sidebar-social-infos"></i></a></li>
+   
+        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:9001/blog/static/images/qq_qrcode.jpg" width=100% height=100% />' data-title="QQ">
+        <i class="fa fa-qq sidebar-social-infos"></i></a></li>
+        <script type="text/javascript">
+            $(function () {
+                  $('#qq').popover({html : true })
+                })
+        </script>
+   
+        <li><a id="weixin" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:9001/blog/static/images/weixin_qrcode.jpg" width=100% height=100% />' data-title="WeChat">
+        <i class="fa fa-weixin sidebar-social-infos"></i></a></li>
+        <script type="text/javascript">
+            $(function () {
+                  $('#weixin').popover({html : true })
+                })
+        </script>
+   
+        </ul>
+        iOS Docker Swift Python
+Email: longminxiang@163.com
+    </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading"><i class="fa fa-link"></i> 链接</div>
+  <div class="panel-body">
+        <ul class="list-unstyled">
+        
+        <li>
+        <a href="http://getpelican.com/" title="http://getpelican.com/" target="_blank">Pelican</a>
+        </li>
+        <li>
+        <a href="http://python.org/" title="http://python.org/" target="_blank">Python.org</a>
+        </li>
+        <li>
+        <a href="http://jinja.pocoo.org/" title="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+        </li>
+        </ul>
+  </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAIDU_TONGJI -->
+
+    <!-- footer -->
+    <div id="push"></div>
+<footer class="footer">
+<div id="footer">
+    <ul class="footer-content">
+        <li class="swain-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>
+        </li>
+    </ul>
+    <ul class="footer-content">
+        <li class="swain-power"><a href="https://beian.miit.gov.cn">桂ICP备16000282号-2</a>
+        </li>
+    </ul>
+</div>
+</footer>    
+<script type="text/javascript">
+    function setAnimate(i){
+            var f = document.getElementsByClassName("animate")[0];
+            f.style.animationDelay = (0+i/2).toString()+"s";
+            f.classList.remove("animate");
+        };
+    var n = document.getElementsByClassName("animate").length;
+    function initAnimate(){
+        var i=0;
+        while(i < n)
+        {
+            setAnimate(i);
+            i++;
+        };
+    };
+    window.onload = initAnimate();
+</script>
+</body>
+</html>
