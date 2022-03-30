@@ -13,15 +13,15 @@
     <title>iOS Http断点续传浅析</title>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch_set.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/pygments.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/swain.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/animate.css" media="screen">
-    <link rel="icon" href="https://static.mixii.net:9001/blog/static/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/animate.css" media="screen">
+    <link rel="icon" href="https://static.mixii.net:8898/blog/static/images/favicon.ico" type="image/x-icon" />
     
     <!-- GOOGLE_ANALYTICS -->
 </head>
@@ -75,10 +75,9 @@
         <hr/>
         <div class="entry-content">
           <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
-<div class="highlight"><pre><span></span><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
-<span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="s">@&quot;bytes=500-&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
+<span class="p">[</span><span class="n">request</span><span class="w"> </span><span class="n">addValue</span><span class="o">:</span><span class="s">@&quot;bytes=500-&quot;</span><span class="w"> </span><span class="n">forHTTPHeaderField</span><span class="o">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
 
 <p>如果服务器正确响应的话，就可以顺利续传；如果服务器不支持，那就只能用其它方法了。</p>
 <p><strong>经过测试，服务器的不支持分为两种情况：</strong></p>
@@ -101,208 +100,206 @@
 <p><strong>下面是用NSURLConnection实现http断点续传的实例：</strong></p>
 <p>针对上面两种做了简单的处理，回调函数还有待添加</p>
 <p>MXDownload.h文件：</p>
-<div class="highlight"><pre><span></span><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;</span>
 
-<span class="k">@interface</span> <span class="nc">MXDownload</span> : <span class="bp">NSObject</span>
+<span class="k">@interface</span> <span class="nc">MXDownload</span> : <span class="bp">NSObject</span><span class="w"></span>
 
 <span class="c1">//文件名路径</span>
-<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">readonly</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">filePath</span><span class="p">;</span>
+<span class="k">@property</span><span class="w"> </span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="k">readonly</span><span class="p">)</span><span class="w"> </span><span class="bp">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">filePath</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">//是否正在下载的标志</span>
-<span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">readonly</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">downloading</span><span class="p">;</span>
+<span class="k">@property</span><span class="w"> </span><span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span><span class="w"> </span><span class="k">readonly</span><span class="p">)</span><span class="w"> </span><span class="kt">BOOL</span><span class="w"> </span><span class="n">downloading</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">//初始化</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrlString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">urlString</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrlString:</span><span class="p">(</span><span class="bp">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">urlString</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">//两个状态</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">;</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stop</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">;</span><span class="w"></span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stop</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">//清除缓存</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clearCache</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clearCache</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">@end</span>
-</pre></div>
-
+<span class="k">@end</span><span class="w"></span>
+</code></pre></div>
 
 <p>MXDownload.m文件：</p>
-<div class="highlight"><pre><span></span><span class="cp">#import &quot;MXDownload.h&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">#import &quot;MXDownload.h&quot;</span>
 <span class="cp">#import &quot;NSString+MX.h&quot;</span>
 
 <span class="cp">#define FILE_INFO_PLIST [NSString   pathWithName:@&quot;MXDownload/fileInfo.plist&quot;   directory:NSCachesDirectory]</span>
 
-<span class="k">@interface</span> <span class="nc">MXDownload</span> <span class="p">(){</span>
-    <span class="bp">NSURLConnection</span> <span class="o">*</span><span class="n">_urlConnection</span><span class="p">;</span>
-    <span class="bp">NSString</span> <span class="o">*</span><span class="n">_urlString</span><span class="p">;</span>
-    <span class="kt">BOOL</span> <span class="n">_downloading</span><span class="p">,</span><span class="n">_didAddRange</span><span class="p">,</span><span class="n">_shouldResume</span><span class="p">;</span>
+<span class="k">@interface</span> <span class="nc">MXDownload</span><span class="w"> </span><span class="p">(){</span><span class="w"></span>
+<span class="w">    </span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="o">*</span><span class="n">_urlConnection</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="bp">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">_urlString</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">BOOL</span><span class="w"> </span><span class="n">_downloading</span><span class="p">,</span><span class="n">_didAddRange</span><span class="p">,</span><span class="n">_shouldResume</span><span class="p">;</span><span class="w"></span>
 
-    <span class="bp">NSString</span> <span class="o">*</span><span class="n">_fileName</span><span class="p">,</span><span class="o">*</span><span class="n">_filePath</span><span class="p">,</span> <span class="o">*</span><span class="n">_tempFilePath</span><span class="p">;</span>
-    <span class="bp">NSFileHandle</span>        <span class="o">*</span><span class="n">_fileHandle</span><span class="p">;</span>
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span>  <span class="n">_fileOffset</span><span class="p">,</span><span class="n">_fileSize</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="bp">NSString</span><span class="w"> </span><span class="o">*</span><span class="n">_fileName</span><span class="p">,</span><span class="o">*</span><span class="n">_filePath</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">_tempFilePath</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="bp">NSFileHandle</span><span class="w">        </span><span class="o">*</span><span class="n">_fileHandle</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w">  </span><span class="n">_fileOffset</span><span class="p">,</span><span class="n">_fileSize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">@end</span>
+<span class="k">@end</span><span class="w"></span>
 
-<span class="k">@implementation</span> <span class="nc">MXDownload</span>
-<span class="k">@synthesize</span> <span class="n">downloading</span> <span class="o">=</span> <span class="n">_downloading</span><span class="p">;</span>
-<span class="k">@synthesize</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">_filePath</span><span class="p">;</span>
+<span class="k">@implementation</span> <span class="nc">MXDownload</span><span class="w"></span>
+<span class="k">@synthesize</span><span class="w"> </span><span class="n">downloading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_downloading</span><span class="p">;</span><span class="w"></span>
+<span class="k">@synthesize</span><span class="w"> </span><span class="n">filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_filePath</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">//初始化，顺便设置下载文件和下载临时文件路径</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrlString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">urlString</span><span class="p">{</span>
-    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">){</span>
-        <span class="n">_urlString</span> <span class="o">=</span> <span class="n">urlString</span><span class="p">;</span>
-        <span class="n">_shouldResume</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">_urlString</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">_fileName</span> <span class="o">=</span> <span class="p">[</span><span class="n">_urlString</span> <span class="n">MD5</span><span class="p">];</span>
-            <span class="n">_filePath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">pathWithName</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;MXDownload/ %@&quot;</span><span class="p">,</span><span class="n">_fileName</span><span class="p">]</span> <span class="nl">directory</span><span class="p">:</span><span class="n">NSCachesDirectory</span><span class="p">];</span>
-            <span class="n">_tempFilePath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@.temp&quot;</span><span class="p">,</span><span class="n">_filePath</span><span class="p">];</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithUrlString:</span><span class="p">(</span><span class="bp">NSString</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">urlString</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">init</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">self</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">_urlString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">urlString</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">_shouldResume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">YES</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_urlString</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">_fileName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">_urlString</span><span class="w"> </span><span class="n">MD5</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">_filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSString</span><span class="w"> </span><span class="n">pathWithName</span><span class="o">:</span><span class="p">[</span><span class="bp">NSString</span><span class="w"> </span><span class="n">stringWithFormat</span><span class="o">:</span><span class="s">@&quot;MXDownload/ %@&quot;</span><span class="p">,</span><span class="n">_fileName</span><span class="p">]</span><span class="w"> </span><span class="n">directory</span><span class="o">:</span><span class="n">NSCachesDirectory</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">_tempFilePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSString</span><span class="w"> </span><span class="n">stringWithFormat</span><span class="o">:</span><span class="s">@&quot;%@.temp&quot;</span><span class="p">,</span><span class="n">_filePath</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">self</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//开始下载</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">{</span>
-    <span class="c1">//如果正在下载，中断</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_downloading</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-    <span class="c1">//没有url，也中断</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_urlString</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">start</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//如果正在下载，中断</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_downloading</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//没有url，也中断</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">_urlString</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
 
-    <span class="c1">//临时文件句柄</span>
-    <span class="n">_fileHandle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileHandle</span> <span class="nl">fileHandleForWritingAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span><span class="p">];</span>
-    <span class="c1">//获取本次请求下载开始的位置,如果文件不存在，就是0</span>
-    <span class="n">_fileOffset</span> <span class="o">=</span> <span class="n">_fileHandle</span> <span class="o">?</span> <span class="p">[</span><span class="n">_fileHandle</span> <span class="n">seekToEndOfFile</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">//临时文件句柄</span>
+<span class="w">    </span><span class="n">_fileHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSFileHandle</span><span class="w"> </span><span class="n">fileHandleForWritingAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//获取本次请求下载开始的位置,如果文件不存在，就是0</span>
+<span class="w">    </span><span class="n">_fileOffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_fileHandle</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="n">_fileHandle</span><span class="w"> </span><span class="n">seekToEndOfFile</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-    <span class="c1">//初始化请求</span>
-    <span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableURLRequest</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithURL</span><span class="p">:[</span><span class="bp">NSURL</span>  <span class="nl">URLWithString</span><span class="p">:</span><span class="n">_urlString</span><span class="p">]];</span>
-    <span class="c1">//设置缓存策略，很重要，因为文件是自己储存的，和缓存无关，所以要忽略缓存</span>
-    <span class="c1">//要不然第二次请求会出错</span>
-    <span class="p">[</span><span class="n">request</span> <span class="nl">setCachePolicy</span><span class="p">:</span><span class="n">NSURLRequestReloadIgnoringLocalCacheData</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">//初始化请求</span>
+<span class="w">    </span><span class="bp">NSMutableURLRequest</span><span class="w"> </span><span class="o">*</span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="bp">NSMutableURLRequest</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithURL</span><span class="o">:</span><span class="p">[</span><span class="bp">NSURL</span><span class="w">  </span><span class="n">URLWithString</span><span class="o">:</span><span class="n">_urlString</span><span class="p">]];</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//设置缓存策略，很重要，因为文件是自己储存的，和缓存无关，所以要忽略缓存</span>
+<span class="w">    </span><span class="c1">//要不然第二次请求会出错</span>
+<span class="w">    </span><span class="p">[</span><span class="n">request</span><span class="w"> </span><span class="n">setCachePolicy</span><span class="o">:</span><span class="n">NSURLRequestReloadIgnoringLocalCacheData</span><span class="p">];</span><span class="w"></span>
 
-    <span class="c1">//最关键地方，设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
-    <span class="n">_didAddRange</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_fileOffset</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">_shouldResume</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;bytes=%llu-&quot;</span><span class="p">,</span><span class="n">_fileOffset</span><span class="p">]</span>    <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
-        <span class="n">_didAddRange</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="c1">//最关键地方，设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
+<span class="w">    </span><span class="n">_didAddRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NO</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_fileOffset</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">_shouldResume</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">request</span><span class="w"> </span><span class="n">addValue</span><span class="o">:</span><span class="p">[</span><span class="bp">NSString</span><span class="w"> </span><span class="n">stringWithFormat</span><span class="o">:</span><span class="s">@&quot;bytes=%llu-&quot;</span><span class="p">,</span><span class="n">_fileOffset</span><span class="p">]</span><span class="w">    </span><span class="n">forHTTPHeaderField</span><span class="o">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">_didAddRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">YES</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="n">_urlConnection</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSURLConnection</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
-    <span class="p">[</span><span class="n">_urlConnection</span> <span class="n">start</span><span class="p">];</span>
+<span class="w">    </span><span class="n">_urlConnection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithRequest</span><span class="o">:</span><span class="n">request</span><span class="w"> </span><span class="n">delegate</span><span class="o">:</span><span class="nb">self</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">_urlConnection</span><span class="w"> </span><span class="n">start</span><span class="p">];</span><span class="w"></span>
 
-    <span class="n">_downloading</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">_downloading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">YES</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//结束下载</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stop</span><span class="p">{</span>
-    <span class="p">[</span><span class="n">_urlConnection</span> <span class="n">cancel</span><span class="p">];</span>
-    <span class="n">_urlConnection</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-    <span class="p">[</span><span class="n">_fileHandle</span> <span class="n">closeFile</span><span class="p">];</span>
-    <span class="n">_downloading</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">stop</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">_urlConnection</span><span class="w"> </span><span class="n">cancel</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">_urlConnection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nil</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">_fileHandle</span><span class="w"> </span><span class="n">closeFile</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">_downloading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NO</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//清除文件</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clearCache</span><span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_downloading</span><span class="p">)</span> <span class="p">[</span><span class="nb">self</span> <span class="n">stop</span><span class="p">];</span>
-    <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">_filePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-    <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="p">}</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">clearCache</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_downloading</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">[[</span><span class="bp">NSFileManager</span><span class="w"> </span><span class="n">defaultManager</span><span class="p">]</span><span class="w"> </span><span class="n">removeItemAtPath</span><span class="o">:</span><span class="n">_filePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">[[</span><span class="bp">NSFileManager</span><span class="w"> </span><span class="n">defaultManager</span><span class="p">]</span><span class="w"> </span><span class="n">removeItemAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="cp">#pragma mark -</span>
 <span class="cp">#pragma mark NSURLConnectionDelegate</span>
 
 <span class="c1">//接收到响应</span>
-<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didReceiveResponse:</span><span class="p">(</span><span class="bp">NSURLResponse</span>  <span class="o">*</span><span class="p">)</span><span class="nv">response</span><span class="p">{</span>
-    <span class="c1">//本次请求回来的文件大小</span>
-    <span class="kt">long</span> <span class="kt">long</span> <span class="n">fileLength</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">expectedContentLength</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fileLength</span> <span class="o">==</span> <span class="n">NSURLResponseUnknownLength</span><span class="p">)</span> <span class="p">[</span><span class="nb">self</span> <span class="n">stop</span><span class="p">];</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">connection</span><span class="w"> </span><span class="nf">didReceiveResponse:</span><span class="p">(</span><span class="bp">NSURLResponse</span><span class="w">  </span><span class="o">*</span><span class="p">)</span><span class="nv">response</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//本次请求回来的文件大小</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">fileLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="n">expectedContentLength</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fileLength</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">NSURLResponseUnknownLength</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
 
-    <span class="bp">NSData</span> <span class="o">*</span><span class="n">existFileData</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSData</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithContentsOfFile</span><span class="p">:</span><span class="n">_filePath</span><span class="p">];</span>
+<span class="w">    </span><span class="bp">NSData</span><span class="w"> </span><span class="o">*</span><span class="n">existFileData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="bp">NSData</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithContentsOfFile</span><span class="o">:</span><span class="n">_filePath</span><span class="p">];</span><span class="w"></span>
 
-    <span class="c1">//检查文件是否已下载完成</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">existFileData</span> <span class="o">&amp;&amp;</span> <span class="n">existFileData</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="n">fileLength</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;之前已经下载好了&quot;</span><span class="p">);</span>
-        <span class="p">[</span><span class="nb">self</span> <span class="n">stop</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">else</span><span class="p">{</span>
-        <span class="c1">//保存文件的总大小</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_didAddRange</span><span class="p">){</span>
-            <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">dic</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
-            <span class="p">[</span><span class="n">dic</span> <span class="nl">addEntriesFromDictionary</span><span class="p">:[</span><span class="bp">NSDictionary</span>     <span class="nl">dictionaryWithContentsOfFile</span><span class="p">:</span><span class="n">FILE_INFO_PLIST</span><span class="p">]];</span>
-            <span class="p">[</span><span class="n">dic</span> <span class="nl">setValue</span><span class="p">:[</span><span class="bp">NSNumber</span> <span class="nl">numberWithLongLong</span><span class="p">:</span><span class="n">fileLength</span><span class="p">]</span>  <span class="nl">forKey</span><span class="p">:</span><span class="n">_fileName</span><span class="p">];</span>
-            <span class="p">[</span><span class="n">dic</span> <span class="nl">writeToFile</span><span class="p">:</span><span class="n">FILE_INFO_PLIST</span> <span class="nl">atomically</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-        <span class="p">}</span>
+<span class="w">    </span><span class="c1">//检查文件是否已下载完成</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">existFileData</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">existFileData</span><span class="p">.</span><span class="n">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fileLength</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;之前已经下载好了&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">//保存文件的总大小</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">_didAddRange</span><span class="p">){</span><span class="w"></span>
+<span class="w">            </span><span class="bp">NSMutableDictionary</span><span class="w"> </span><span class="o">*</span><span class="n">dic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableDictionary</span><span class="w"> </span><span class="n">new</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="n">dic</span><span class="w"> </span><span class="n">addEntriesFromDictionary</span><span class="o">:</span><span class="p">[</span><span class="bp">NSDictionary</span><span class="w">     </span><span class="n">dictionaryWithContentsOfFile</span><span class="o">:</span><span class="n">FILE_INFO_PLIST</span><span class="p">]];</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="n">dic</span><span class="w"> </span><span class="n">setValue</span><span class="o">:</span><span class="p">[</span><span class="bp">NSNumber</span><span class="w"> </span><span class="n">numberWithLongLong</span><span class="o">:</span><span class="n">fileLength</span><span class="p">]</span><span class="w">  </span><span class="n">forKey</span><span class="o">:</span><span class="n">_fileName</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="n">dic</span><span class="w"> </span><span class="n">writeToFile</span><span class="o">:</span><span class="n">FILE_INFO_PLIST</span><span class="w"> </span><span class="n">atomically</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="bp">NSFileManager</span> <span class="o">*</span><span class="n">fileManager</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">];</span>
-        <span class="c1">//先清除掉旧的文件</span>
-        <span class="p">[</span><span class="n">fileManager</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">_filePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="w">        </span><span class="bp">NSFileManager</span><span class="w"> </span><span class="o">*</span><span class="n">fileManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSFileManager</span><span class="w"> </span><span class="n">defaultManager</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="c1">//先清除掉旧的文件</span>
+<span class="w">        </span><span class="p">[</span><span class="n">fileManager</span><span class="w"> </span><span class="n">removeItemAtPath</span><span class="o">:</span><span class="n">_filePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
 
-        <span class="c1">//如果此次请求回来的大小等于文件的总大小而且临时文件又存在，则删除临时文件</span>
-        <span class="c1">//解决每次请求都是重新开始的问题</span>
-        <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">dic</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDictionary</span> <span class="nl">dictionaryWithContentsOfFile</span><span class="p">:</span><span class="n">FILE_INFO_PLIST</span><span class="p">];</span>
-        <span class="kt">BOOL</span> <span class="n">isTotalLength</span> <span class="o">=</span> <span class="n">fileLength</span> <span class="o">==</span> <span class="p">[[</span><span class="n">dic</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="n">_fileName</span><span class="p">]</span> <span class="n">longLongValue</span><span class="p">];</span>
-        <span class="k">if</span> <span class="p">([</span><span class="n">fileManager</span> <span class="nl">fileExistsAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">isTotalLength</span><span class="p">){</span>
-            <span class="p">[</span><span class="n">fileManager</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="c1">//如果此次请求回来的大小等于文件的总大小而且临时文件又存在，则删除临时文件</span>
+<span class="w">        </span><span class="c1">//解决每次请求都是重新开始的问题</span>
+<span class="w">        </span><span class="bp">NSDictionary</span><span class="w"> </span><span class="o">*</span><span class="n">dic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSDictionary</span><span class="w"> </span><span class="n">dictionaryWithContentsOfFile</span><span class="o">:</span><span class="n">FILE_INFO_PLIST</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="kt">BOOL</span><span class="w"> </span><span class="n">isTotalLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fileLength</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">[[</span><span class="n">dic</span><span class="w"> </span><span class="n">valueForKey</span><span class="o">:</span><span class="n">_fileName</span><span class="p">]</span><span class="w"> </span><span class="n">longLongValue</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">([</span><span class="n">fileManager</span><span class="w"> </span><span class="n">fileExistsAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">isTotalLength</span><span class="p">){</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="n">fileManager</span><span class="w"> </span><span class="n">removeItemAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="c1">//重新创建文件</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">fileManager</span> <span class="nl">fileExistsAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span><span class="p">]){</span>
-            <span class="p">[</span><span class="n">fileManager</span> <span class="nl">createFileAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span> <span class="nl">contents</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">attributes</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-            <span class="n">_fileHandle</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileHandle</span> <span class="nl">fileHandleForWritingAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span><span class="p">];</span>
-            <span class="n">_fileOffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="c1">//重新创建文件</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">fileManager</span><span class="w"> </span><span class="n">fileExistsAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="p">]){</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="n">fileManager</span><span class="w"> </span><span class="n">createFileAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="w"> </span><span class="n">contents</span><span class="o">:</span><span class="nb">nil</span><span class="w"> </span><span class="n">attributes</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">_fileHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSFileHandle</span><span class="w"> </span><span class="n">fileHandleForWritingAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">_fileOffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="n">_fileSize</span> <span class="o">=</span> <span class="n">fileLength</span> <span class="o">+</span> <span class="n">_fileOffset</span><span class="p">;</span>
+<span class="w">        </span><span class="n">_fileSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fileLength</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">_fileOffset</span><span class="p">;</span><span class="w"></span>
 
-        <span class="c1">//用_fileOffset可以检查是重新下载还是继续下载</span>
-        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span><span class="n">_fileOffset</span> <span class="o">?</span> <span class="s">@&quot;继续下载&quot;</span> <span class="o">:</span> <span class="s">@&quot;开始下载&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">        </span><span class="c1">//用_fileOffset可以检查是重新下载还是继续下载</span>
+<span class="w">        </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span><span class="n">_fileOffset</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">@&quot;继续下载&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;开始下载&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//不断接收到数据</span>
-<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didReceiveData:</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">aData</span><span class="p">{</span>
-    <span class="c1">//写入文件</span>
-    <span class="p">[</span><span class="n">_fileHandle</span> <span class="nl">writeData</span><span class="p">:</span><span class="n">aData</span><span class="p">];</span>
-    <span class="n">_fileOffset</span> <span class="o">=</span> <span class="p">[</span><span class="n">_fileHandle</span> <span class="n">offsetInFile</span><span class="p">];</span>
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;下载进度: %lld / %lld&quot;</span><span class="p">,</span><span class="n">_fileOffset</span><span class="p">,</span><span class="n">_fileSize</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">connection</span><span class="w"> </span><span class="nf">didReceiveData:</span><span class="p">(</span><span class="bp">NSData</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">aData</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//写入文件</span>
+<span class="w">    </span><span class="p">[</span><span class="n">_fileHandle</span><span class="w"> </span><span class="n">writeData</span><span class="o">:</span><span class="n">aData</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">_fileOffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">_fileHandle</span><span class="w"> </span><span class="n">offsetInFile</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;下载进度: %lld / %lld&quot;</span><span class="p">,</span><span class="n">_fileOffset</span><span class="p">,</span><span class="n">_fileSize</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span> <span class="nf">didFailWithError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">{</span>
-    <span class="p">[</span><span class="nb">self</span> <span class="n">stop</span><span class="p">];</span>
-    <span class="c1">//如果不支持续传，删掉临时文件再试一次</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_shouldResume</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">_shouldResume</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-        <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">removeItemAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-        <span class="p">[</span><span class="nb">self</span> <span class="n">start</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">connection</span><span class="w"> </span><span class="nf">didFailWithError:</span><span class="p">(</span><span class="bp">NSError</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//如果不支持续传，删掉临时文件再试一次</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_shouldResume</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">_shouldResume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NO</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">[[</span><span class="bp">NSFileManager</span><span class="w"> </span><span class="n">defaultManager</span><span class="p">]</span><span class="w"> </span><span class="n">removeItemAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">start</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
 <span class="c1">//完成</span>
-<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connectionDidFinishLoading:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o">*</span><span class="p">)</span><span class="nv">connection</span><span class="p">{</span>
-    <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">moveItemAtPath</span><span class="p">:</span><span class="n">_tempFilePath</span> <span class="nl">toPath</span><span class="p">:</span><span class="n">_filePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;下载完成&quot;</span><span class="p">);</span>
-    <span class="p">[</span><span class="nb">self</span> <span class="n">stop</span><span class="p">];</span>
-<span class="p">}</span>
+<span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connectionDidFinishLoading:</span><span class="p">(</span><span class="bp">NSURLConnection</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="nv">connection</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">[[</span><span class="bp">NSFileManager</span><span class="w"> </span><span class="n">defaultManager</span><span class="p">]</span><span class="w"> </span><span class="n">moveItemAtPath</span><span class="o">:</span><span class="n">_tempFilePath</span><span class="w"> </span><span class="n">toPath</span><span class="o">:</span><span class="n">_filePath</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;下载完成&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">@end</span>
-</pre></div>
-
+<span class="k">@end</span><span class="w"></span>
+</code></pre></div>
 
 <p>调用：</p>
-<div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">startDownLoad:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_downloader</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">){</span>
+<div class="highlight"><pre><span></span><code><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">startDownLoad:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_downloader</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">nil</span><span class="p">){</span><span class="w"></span>
 <span class="c1">//        _downloader = [[MXDownload alloc] initWithUrlString:@&quot;https://github.com/ CocoaPods/CocoaPods/archive/master.zip&quot;];</span>
-        <span class="n">_downloader</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MXDownload</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithUrlString</span><span class="p">:</span><span class="s">@&quot;http://dl_dir.qq.com/ qqfile/qq/QQforMac/QQ_V2.4.2.dmg&quot;</span><span class="p">];</span>
+<span class="w">        </span><span class="n">_downloader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">MXDownload</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithUrlString</span><span class="o">:</span><span class="s">@&quot;http://dl_dir.qq.com/ qqfile/qq/QQforMac/QQ_V2.4.2.dmg&quot;</span><span class="p">];</span><span class="w"></span>
 <span class="c1">//        _downloader = [[MXDownload alloc] initWithUrlString:@&quot;http:// 192.168.50.19:8080/vcont/wb.mp3&quot;];</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">_downloader</span><span class="p">.</span><span class="n">downloading</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">[</span><span class="n">_downloader</span> <span class="n">stop</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">else</span><span class="p">{</span>
-        <span class="p">[</span><span class="n">_downloader</span> <span class="n">start</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">_downloader</span><span class="p">.</span><span class="n">downloading</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">_downloader</span><span class="w"> </span><span class="n">stop</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">_downloader</span><span class="w"> </span><span class="n">start</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
         </div><!-- /.entry-content -->
     </div>
   </div>      

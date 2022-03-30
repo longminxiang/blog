@@ -13,15 +13,15 @@
     <title>小米电视、Mac、SMB</title>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch_set.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/pygments.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/swain.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/animate.css" media="screen">
-    <link rel="icon" href="https://static.mixii.net:9001/blog/static/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/animate.css" media="screen">
+    <link rel="icon" href="https://static.mixii.net:8898/blog/static/images/favicon.ico" type="image/x-icon" />
     
     <!-- GOOGLE_ANALYTICS -->
 </head>
@@ -77,17 +77,17 @@
           <h2>0x00前言</h2>
 <p>小米电视上有个应用叫【高清播放器】，此播放器可以连接开启了【共享】功能的设备</p>
 <p>通过此功能可以在大屏上浏览其它设备上的文件</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/1.JPG"></p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/2.JPG"></p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/3.JPG"></p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/4.JPG"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/1.JPG"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/2.JPG"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/3.JPG"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/4.JPG"></p>
 <h2>0x01问题</h2>
 <p>问题是连不上MacBook</p>
 <p>用户名和密码完全正确也还是有下面的提示</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/5.JPG"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/5.JPG"></p>
 <p>对比Windows</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/6.jpg"></p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/7.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/6.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/7.jpg"></p>
 <h2>0x02原因</h2>
 <p>原因是小米电视的samba和Mac的smbd不兼容，目前并没有找到一个比较完美的解决方案</p>
 <h2>0x03方案</h2>
@@ -96,88 +96,85 @@
 <p><strong>3、都不改，用一个兼容的版本代替Mac上的smbd</strong></p>
 <h2>0x04解决过程</h2>
 <p>Mac上开启samba服务</p>
-<div class="highlight"><pre><span></span><span class="nt">docker</span> <span class="nt">run</span> <span class="nt">-it</span> <span class="nt">--name</span> <span class="nt">samba</span> <span class="nt">-p</span> <span class="nt">139</span><span class="p">:</span><span class="nd">139</span> <span class="nt">-p</span> <span class="nt">445</span><span class="p">:</span><span class="nd">445</span> <span class="nt">-v</span> <span class="o">~/</span><span class="nt">Downloads</span><span class="o">:/</span><span class="nt">shares</span> <span class="nt">-d</span> <span class="nt">dperson</span><span class="o">/</span><span class="nt">samba</span> <span class="nt">-s</span> <span class="s2">&quot;shares;/shares;yes;yes;yes;&quot;</span> <span class="nt">-S</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">docker</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="o">-</span><span class="n">it</span><span class="w"> </span><span class="o">--</span><span class="n">name</span><span class="w"> </span><span class="n">samba</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">139</span><span class="p">:</span><span class="mi">139</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">445</span><span class="p">:</span><span class="mi">445</span><span class="w"> </span><span class="o">-</span><span class="n">v</span><span class="w"> </span><span class="o">~/</span><span class="n">Downloads</span><span class="p">:</span><span class="o">/</span><span class="n">shares</span><span class="w"> </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="n">dperson</span><span class="o">/</span><span class="n">samba</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="s2">&quot;shares;/shares;yes;yes;yes;&quot;</span><span class="w"> </span><span class="o">-</span><span class="n">S</span><span class="w"></span>
+</code></pre></div>
 
 <p>可能会出现这个错误</p>
-<div class="highlight"><pre><span></span><span class="n">Error</span> <span class="n">starting</span> <span class="n">userland</span> <span class="n">proxy</span><span class="p">:</span> <span class="k">listen</span> <span class="n">tcp</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">:</span><span class="mi">445</span><span class="p">:</span> <span class="n">bind</span><span class="p">:</span> <span class="n">address</span> <span class="n">already</span> <span class="k">in</span> <span class="n">use</span><span class="p">.</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>Error starting userland proxy: listen tcp 0.0.0.0:445: bind: address already in use.
+</code></pre></div>
 
-
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/8.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/8.jpg"></p>
 <p>445端口被占用了，因为之前开启了smbd，smbd占用了445</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/9.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/9.jpg"></p>
 <p>先关掉系统的共享功能再重试</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/10.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/10.jpg"></p>
 <p>查看下445端口的情况</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">lsof</span> <span class="o">-</span><span class="n">i</span><span class="p">:</span><span class="mi">445</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>sudo lsof -i:445
+</code></pre></div>
 
-
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/11.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/11.jpg"></p>
 <p>成功了但还是连接不上</p>
 <p>猜测应该是还有其他服务一起限制，单是开了445端口是不行的</p>
 <p>于是重新打开系统的共享功能，由于docker已经占了445端口，所以系统的smbd启动不了，成功替换</p>
-<p><img alt="MacDown logo" src="https://static.mixii.net:9001/blog/macsmb/12.jpg"></p>
+<p><img alt="MacDown logo" src="https://static.mixii.net:8898/blog/macsmb/12.jpg"></p>
 <h2>0x05解决步骤</h2>
 <p><strong>1、关闭共享功能</strong></p>
 <p><strong>2、开启新的samba服务</strong></p>
 <p><strong>3、打开共享功能</strong></p>
 <h2>0x06进一步</h2>
 <p>写个脚本来解决</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
 
 <span class="nv">SHARE_DIR</span><span class="o">=</span>~/Downloads
 
@@ -229,19 +226,16 @@ start<span class="o">(){</span>
 <span class="k">fi</span>
 
 <span class="nb">exit</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>保存为samba.sh，这样用</p>
-<div class="highlight"><pre><span></span><span class="n">sh</span> <span class="n">samba</span><span class="p">.</span><span class="n">sh</span> <span class="k">start</span><span class="o">/</span><span class="k">restart</span><span class="o">/</span><span class="n">stop</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sh samba.sh start/restart/stop
+</code></pre></div>
 
 <h2>0x07踩坑记录</h2>
 <h4>samba</h4>
-<div class="highlight"><pre><span></span><span class="nt">docker</span> <span class="nt">run</span> <span class="nt">-it</span> <span class="nt">--name</span> <span class="nt">samba</span> <span class="nt">-p</span> <span class="nt">139</span><span class="p">:</span><span class="nd">139</span> <span class="nt">-p</span> <span class="nt">445</span><span class="p">:</span><span class="nd">445</span> <span class="nt">-v</span> <span class="o">~/</span><span class="nt">Downloads</span><span class="o">:/</span><span class="nt">shares</span> <span class="nt">-d</span> <span class="nt">dperson</span><span class="o">/</span><span class="nt">samba</span> <span class="nt">-s</span> <span class="s2">&quot;shares;/shares;yes;yes;yes;&quot;</span> <span class="nt">-S</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">docker</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="o">-</span><span class="n">it</span><span class="w"> </span><span class="o">--</span><span class="n">name</span><span class="w"> </span><span class="n">samba</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">139</span><span class="p">:</span><span class="mi">139</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">445</span><span class="p">:</span><span class="mi">445</span><span class="w"> </span><span class="o">-</span><span class="n">v</span><span class="w"> </span><span class="o">~/</span><span class="n">Downloads</span><span class="p">:</span><span class="o">/</span><span class="n">shares</span><span class="w"> </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="n">dperson</span><span class="o">/</span><span class="n">samba</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="s2">&quot;shares;/shares;yes;yes;yes;&quot;</span><span class="w"> </span><span class="o">-</span><span class="n">S</span><span class="w"></span>
+</code></pre></div>
 
 <p>命令最后有个&#8221;-S&#8221;参数，这个是关键，表示&#8221;Disable <span class="caps">SMB2</span> minimum&nbsp;version&#8221;</p>
 <p>具体可参看<a href="https://hub.docker.com/r/dperson/samba">https://hub.docker.com/r/dperson/samba</a></p>
@@ -249,20 +243,19 @@ start<span class="o">(){</span>
 <p>倒推回来，可能问题的原因是电视用的是SMB1，而Mac又放弃了对SMB1的支持，PC则同时支持SMB1~3</p>
 <h4>smbd</h4>
 <p>mac上用命令打开和关闭【共享】功能的命令是</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">launchctl</span> <span class="k">load</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="k">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchDaemons</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">apple</span><span class="p">.</span><span class="n">smbd</span><span class="p">.</span><span class="n">plist</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">launchctl</span><span class="w"> </span><span class="nb">load</span><span class="w"> </span><span class="o">-</span><span class="n">w</span><span class="w"> </span><span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchDaemons</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="n">apple</span><span class="o">.</span><span class="n">smbd</span><span class="o">.</span><span class="n">plist</span><span class="w"></span>
 
-<span class="n">sudo</span> <span class="n">launchctl</span> <span class="n">unload</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="k">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchDaemons</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">apple</span><span class="p">.</span><span class="n">smbd</span><span class="p">.</span><span class="n">plist</span>
-</pre></div>
-
+<span class="n">sudo</span><span class="w"> </span><span class="n">launchctl</span><span class="w"> </span><span class="n">unload</span><span class="w"> </span><span class="o">-</span><span class="n">w</span><span class="w"> </span><span class="o">/</span><span class="n">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchDaemons</span><span class="o">/</span><span class="n">com</span><span class="o">.</span><span class="n">apple</span><span class="o">.</span><span class="n">smbd</span><span class="o">.</span><span class="n">plist</span><span class="w"></span>
+</code></pre></div>
 
 <p>小坑：&nbsp;unload了之后，445端口有可能还没来得及关闭，这时候开samba就会出现端口被占用的问题</p>
 <p>解决方法是让smbd用另外一个端口，如446，所以脚本里会有</p>
-<div class="highlight"><pre><span></span><span class="n">SMBD</span><span class="o">=/</span><span class="k">System</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">LaunchDaemons</span><span class="o">/</span><span class="n">com</span><span class="p">.</span><span class="n">apple</span><span class="p">.</span><span class="n">smbd</span><span class="p">.</span><span class="n">plist</span>
+<div class="highlight"><pre><span></span><code>SMBD=/System/Library/LaunchDaemons/com.apple.smbd.plist
 
-<span class="n">sudo</span> <span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="ss">&quot;&quot;</span> <span class="s1">&#39;s/&lt;string&gt;\/usr\/sbin\/smbd&lt;\/string&gt;/&lt;string&gt;\/usr\/sbin\/smbd -ports &quot;446&quot;&lt;\/string&gt;/g&#39;</span> <span class="err">$</span><span class="n">SMBD</span>
+sudo sed -i &quot;&quot; &#39;s/&lt;string&gt;\/usr\/sbin\/smbd&lt;\/string&gt;/&lt;string&gt;\/usr\/sbin\/smbd -ports &quot;446&quot;&lt;\/string&gt;/g&#39; $SMBD
 
-<span class="n">sudo</span> <span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="ss">&quot;&quot;</span> <span class="s1">&#39;s/&lt;string&gt;\/usr\/sbin\/smbd -ports &quot;446&quot;&lt;\/string&gt;/&lt;string&gt;\/usr\/sbin\/smbd&lt;\/string&gt;/g&#39;</span> <span class="err">$</span><span class="n">SMBD</span>
-</pre></div>
+sudo sed -i &quot;&quot; &#39;s/&lt;string&gt;\/usr\/sbin\/smbd -ports &quot;446&quot;&lt;\/string&gt;/&lt;string&gt;\/usr\/sbin\/smbd&lt;\/string&gt;/g&#39; $SMBD
+</code></pre></div>
         </div><!-- /.entry-content -->
     </div>
   </div>      

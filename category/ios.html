@@ -15,15 +15,15 @@
     <title>万象天青 - iOS category</title>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch_set.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch_set.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/tipuesearch/tipuesearch.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/pygments.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/swain.css" media="screen">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/swain@1.0/dist/css/animate.css" media="screen">
-    <link rel="icon" href="https://static.mixii.net:9001/blog/static/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/tipuesearch/tipuesearch.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/pygments.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/swain.css" media="screen">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/longminxiang/blog@1.0.1/theme/css/animate.css" media="screen">
+    <link rel="icon" href="https://static.mixii.net:8898/blog/static/images/favicon.ico" type="image/x-icon" />
     
     <!-- GOOGLE_ANALYTICS -->
 </head>
@@ -74,18 +74,16 @@
                         </div>
                         <div class="entry-content">
                             <p><strong>地址断点</strong></p>
-<div class="highlight"><pre><span></span><span class="n">br</span> <span class="n">s</span> <span class="o">-</span><span class="n">a</span> <span class="mi">0</span><span class="n">x1ce1bb</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>br s -a 0x1ce1bb
+</code></pre></div>
 
 <p><strong>函数名字断点</strong></p>
-<div class="highlight"><pre><span></span><span class="n">br</span> <span class="n">s</span> <span class="o">-</span><span class="n">n</span> <span class="n">decryptStr</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>br s -n decryptStr
+</code></pre></div>
 
 <p><strong>函数名字所有断点</strong></p>
-<div class="highlight"><pre><span></span><span class="n">br</span> <span class="n">s</span> <span class="o">-</span><span class="n">M</span> <span class="n">decryptStr</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>br s -M decryptStr
+</code></pre></div>
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/lldb-diao-shi-ji-qiao.html" rel="bookmark" title="Permalink to lldb 调试技巧">Read more</a>
@@ -108,23 +106,18 @@
                         </div>
                         <div class="entry-content">
                             <h4>1.打开终端，运行</h4>
-<div class="highlight"><pre><span></span><span class="n">hdiutil</span> <span class="n">attach</span> <span class="o">/</span><span class="n">Applications</span><span class="o">/</span><span class="n">Xcode</span><span class="p">.</span><span class="n">app</span><span class="o">/</span><span class="n">Contents</span><span class="o">/</span><span class="n">Developer</span><span class="o">/</span><span class="n">Platforms</span><span class="o">/</span><span class="n">iPhoneOS</span><span class="p">.</span><span class="n">platform</span><span class="o">/</span><span class="n">DeviceSupport</span><span class="o">/</span><span class="mi">7</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="n">DeveloperDiskImage</span><span class="p">.</span><span class="n">dmg</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/7.0/DeveloperDiskImage.dmg
+</code></pre></div>
 
 <h4>2.拷贝debugserver</h4>
-<div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">/</span><span class="n">Volumes</span><span class="o">/</span><span class="n">DeveloperDiskImage</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">debugserver</span> <span class="o">~/</span><span class="n">Desktop</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>cp /Volumes/DeveloperDiskImage/usr/bin/debugserver ~/Desktop
+</code></pre></div>
 
 <h4>3.切换到桌面</h4>
-<div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">Desktop</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>cd ~/Desktop
+</code></pre></div>
 
-
-<h4>4.新建一个plist文件保存为e.plist</h4>
-<div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http …</span></pre></div>
+<h4>4.新建一个plist文件保 …</h4>
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/lldbyuan-cheng-diao-shi-huan-jing-an-zhuang.html" rel="bookmark" title="Permalink to lldb远程调试环境安装">Read more</a>
@@ -147,30 +140,7 @@
                         </div>
                         <div class="entry-content">
                             <h2>strip功能</h2>
-<p>代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积，对控制安装包大小很有好处。</p>
-<p>开启strip只须下面几步</p>
-<ol>
-<li>
-<p>编译选项中搜索Strip</p>
-</li>
-<li>
-<p>Strip Linked Product =&nbsp;Yes</p>
-</li>
-<li>
-<p>Deployment Postprocessing = <span class="caps">YES</span></p>
-</li>
-</ol>
-<h2>阻止GDB调试</h2>
-<div class="highlight"><pre><span></span><span class="c1">#import &lt;dlfcn.h&gt;  </span>
-<span class="c1">#import &lt;sys/types.h&gt;</span>
-
-<span class="n">typedef</span> <span class="nb">int</span> <span class="p">(</span><span class="o">*</span><span class="n">ptrace_ptr_t</span><span class="p">)(</span><span class="nb">int</span> <span class="n">_request</span><span class="p">,</span> <span class="n">pid_t</span> <span class="n">_pid</span><span class="p">,</span> <span class="n">caddr_t</span> <span class="n">_addr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">_data</span><span class="p">);</span>  
-<span class="c1">#if !defined(PT_DENY_ATTACH)  </span>
-<span class="c1">#define PT_DENY_ATTACH 31  </span>
-<span class="c1">#endif  // !defined(PT_DENY_ATTACH)</span>
-
-<span class="n">void</span> <span class="n">disable_gdb</span><span class="p">()</span> <span class="p">{</span>  
-    <span class="n">void</span><span class="o">*</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">RTLD_GLOBAL</span> <span class="o">|</span> <span class="n">RTLD_NOW …</span></pre></div>
+<p>代码Strip可以把二进制文件中的symbol剥离出来，防止代码被轻易的逆向工程，并且可以大幅度减少二进制文件的体积 …</p>
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/shun-jian-rang-ni-de-cheng-xu-gao-shang-da.html" rel="bookmark" title="Permalink to 瞬间让你的程序高上大">Read more</a>
@@ -193,20 +163,8 @@
                         </div>
                         <div class="entry-content">
                             <p><strong>http实现断点续传的关键地方就是在httprequest中加入“Range”头。</strong></p>
-<div class="highlight"><pre><span></span><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
-<span class="p">[</span><span class="n">request</span> <span class="nl">addValue</span><span class="p">:</span><span class="s">@&quot;bytes=500-&quot;</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span><span class="s">@&quot;Range&quot;</span><span class="p">];</span>
-</pre></div>
-
-
-<p>如果服务器正确响应的话，就可以顺利续传；如果服务器不支持，那就只能用其它方法了。</p>
-<p><strong>经过测试，服务器的不支持分为两种情况：</strong></p>
-<p><strong>1.完全没响应</strong></p>
-<p>如果不处理会导致文件无法下载。</p>
-<p>测试地址：http://dl_dir.qq.com/qqfile/qq/QQforMac/QQ_V2.4.2.dmg</p>
-<p>发送请求后，过一段时间直接进入了didFailWithError的delegate;错误信息为time&nbsp;out。</p>
-<p>针对这种情况可以做出的处理是：增加一个是否支持断点续传的标志。</p>
-<p>具体：</p>
-<p>第一次请求，开始字节为0，不用发送Range头，可以正常下载 …</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//设置Range头，值:bytes=x-y;x:开始字节，y:结束字节，不指定则为文件末尾</span>
+<span class="p">[</span><span class="n">request</span><span class="w"> </span><span class="n">addValue</span><span class="o">:</span><span class="s">@&quot;bytes …</span></code></pre></div>
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/ios-httpduan-dian-xu-chuan-qian-xi.html" rel="bookmark" title="Permalink to iOS Http断点续传浅析">Read more</a>
@@ -228,23 +186,20 @@
                                     <a class="tagged" href="/tags.html#ios-ref">iOS</a>
                         </div>
                         <div class="entry-content">
-                            <div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">IMP</span> <span class="o">*</span><span class="n">IMPPointer</span><span class="p">;</span>
+                            <div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="kt">IMP</span><span class="w"> </span><span class="o">*</span><span class="n">IMPPointer</span><span class="p">;</span><span class="w"></span>
 
-<span class="kt">BOOL</span> <span class="nf">class_swizzleMethodAndStore</span><span class="p">(</span><span class="kt">Class</span> <span class="k">class</span><span class="p">,</span> <span class="kt">SEL</span> <span class="n">original</span><span class="p">,</span> <span class="kt">IMP</span>     <span class="n">replacement</span><span class="p">,</span> <span class="n">IMPPointer</span> <span class="n">store</span><span class="p">)</span> <span class="p">{</span>  
-    <span class="kt">IMP</span> <span class="n">imp</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>  
-    <span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span> <span class="n">original</span><span class="p">);</span>  
-    <span class="k">if</span> <span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="p">{</span>  
-        <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">type</span> <span class="o">=</span> <span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">method</span><span class="p">);</span>  
-        <span class="n">imp</span> <span class="o">=</span> <span class="n">class_replaceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>  
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">imp</span><span class="p">)</span> <span class="p">{</span>  
-            <span class="n">imp</span> <span class="o">=</span> <span class="n">method_getImplementation</span><span class="p">(</span><span class="n">method</span><span class="p">);</span>  
-        <span class="p">}</span>  
-    <span class="p">}</span>  
-    <span class="k">if</span> <span class="p">(</span><span class="n">imp</span> <span class="o">&amp;&amp;</span> <span class="n">store</span><span class="p">)</span> <span class="p">{</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="n">imp</span><span class="p">;</span> <span class="p">}</span>  
-    <span class="k">return</span> <span class="p">(</span><span class="n">imp</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>  
-<span class="p">}</span>
-
-<span class="k">@implementation</span> <span class="bp">NSObject</span> <span class="nl">(FRRuntimeAdditions …</span></pre></div>
+<span class="kt">BOOL</span><span class="w"> </span><span class="nf">class_swizzleMethodAndStore</span><span class="p">(</span><span class="kt">Class</span><span class="w"> </span><span class="k">class</span><span class="p">,</span><span class="w"> </span><span class="kt">SEL</span><span class="w"> </span><span class="n">original</span><span class="p">,</span><span class="w"> </span><span class="kt">IMP</span><span class="w">     </span><span class="n">replacement</span><span class="p">,</span><span class="w"> </span><span class="n">IMPPointer</span><span class="w"> </span><span class="n">store</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="kt">IMP</span><span class="w"> </span><span class="n">imp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w">  </span>
+<span class="w">    </span><span class="n">Method</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span><span class="w"> </span><span class="n">original</span><span class="p">);</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">method</span><span class="p">);</span><span class="w">  </span>
+<span class="w">        </span><span class="n">imp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_replaceMethod</span><span class="p">(</span><span class="k">class</span><span class="p">,</span><span class="w"> </span><span class="n">original</span><span class="p">,</span><span class="w"> </span><span class="n">replacement</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">);</span><span class="w">  </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">imp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">            </span><span class="n">imp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">method_getImplementation</span><span class="p">(</span><span class="n">method</span><span class="p">);</span><span class="w">  </span>
+<span class="w">        </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">imp</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">store</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">*</span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span>
+<span class="w">    </span><span class="k">return …</span></code></pre></div>
                         </div>
                         <div class="row">
                         <div class="read-me col-sm-12"><a class="btn btn-success"  type="button" href="/method-hook.html" rel="bookmark" title="Permalink to Method hook">Read more</a>
@@ -260,12 +215,12 @@
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fa fa-user"></i> 我</div>
     <div class="panel-body">
-        <img class="img-rounded" src="https://static.mixii.net:9001/blog/static/images/avatar.jpg" alt="..." width="100%" height="100%"/>
+        <img class="img-rounded" src="https://static.mixii.net:8898/blog/static/images/avatar.jpg" alt="..." width="100%" height="100%"/>
 <h3>Eric Long</h3>        <ul class="list-inline">
  
         <li><a href="https://github.com/longminxiang" title="My github Profile" class="sidebar-social-info" target="_blank"><i class="fa fa-github sidebar-social-infos"></i></a></li>
    
-        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:9001/blog/static/images/qq_qrcode.jpg" width=100% height=100% />' data-title="QQ">
+        <li><a id="qq" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:8898/blog/static/images/qq_qrcode.jpg" width=100% height=100% />' data-title="QQ">
         <i class="fa fa-qq sidebar-social-infos"></i></a></li>
         <script type="text/javascript">
             $(function () {
@@ -273,7 +228,7 @@
                 })
         </script>
    
-        <li><a id="weixin" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:9001/blog/static/images/weixin_qrcode.jpg" width=100% height=100% />' data-title="WeChat">
+        <li><a id="weixin" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-content='<img src="https://static.mixii.net:8898/blog/static/images/weixin_qrcode.jpg" width=100% height=100% />' data-title="WeChat">
         <i class="fa fa-weixin sidebar-social-infos"></i></a></li>
         <script type="text/javascript">
             $(function () {
